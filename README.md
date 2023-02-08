@@ -1,4 +1,4 @@
-# annahasta
+# AnnaHasta
 
 A new Flutter project.
 
