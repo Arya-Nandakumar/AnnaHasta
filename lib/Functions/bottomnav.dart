@@ -28,26 +28,33 @@ class BottomNav extends StatelessWidget {
       onTap: (int index) {
         switch (index) {
           case 0:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => HomePage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
               ),
             );
             break;
           case 1:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => ContributePage(),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) =>
+                    ContributePage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
               ),
             );
             break;
           case 2:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => SearchPage(),
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => SearchPage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
               ),
             );
             break;
