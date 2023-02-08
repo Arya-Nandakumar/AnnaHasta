@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
         ],
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: BottomNav(selectedIndex: 0),
+      bottomNavigationBar: BottomNav(selectedIndex: 2),
     );
   }
 }
