@@ -1,4 +1,4 @@
-import 'package:annahasta/login.dart';
+import 'package:annahasta/Screens/login.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -37,12 +37,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: "Password"),
-                //validator: (value) {
-                  //if (value.length < 6) {
-                    //return "Password must be at least 6 characters";
-                  //}
-                  //return null;
-                //},
+                validator: (value) {
+                  if (value!.length < 6) {
+                    return "Password must be at least 6 characters";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _nameController,

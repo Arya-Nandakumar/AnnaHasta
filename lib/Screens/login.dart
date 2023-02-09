@@ -1,4 +1,5 @@
-import 'package:annahasta/signup.dart';
+import 'package:annahasta/Screens/home.dart';
+import 'package:annahasta/Screens/signup.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,7 +61,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextButton(
                 onPressed: () {
-                  
+                  Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => HomePage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
+            );
                 },
                 child: Text('Forgot password?'),
               ),
