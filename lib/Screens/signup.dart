@@ -1,5 +1,10 @@
+import 'package:annahasta/Screens/home.dart';
 import 'package:annahasta/Screens/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:annahasta/models/user_model.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -7,11 +12,16 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _auth = FirebaseAuth.instance;
+
+  String? errorMessage;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _fssaiController = TextEditingController();
+
+  final firstNameEditingController = new TextEditingController();
+  final secondNameEditingController = new TextEditingController();
+  final emailEditingController = new TextEditingController();
+  final passwordEditingController = new TextEditingController();
+  final fssaiController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +34,20 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: _emailController,
+                controller: emailEditingController,
                 decoration: InputDecoration(labelText: "Email"),
                 validator: (value) {
-                  if(value!.isEmpty) {
+                  if (value!.isEmpty) {
                     return "Please enter a valid email";
                   }
                   return null;
                 },
+                onSaved: (value) {
+                  firstNameEditingController.text = value!;
+                },
               ),
               TextFormField(
-                controller: _passwordController,
+                controller: passwordEditingController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: "Password"),
                 validator: (value) {
@@ -43,19 +56,38 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   return null;
                 },
-              ),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(labelText: "Full Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your full name";
-                  }
-                  return null;
+                onSaved: (value) {
+                  firstNameEditingController.text = value!;
                 },
               ),
               TextFormField(
-                controller: _fssaiController,
+                controller: firstNameEditingController,
+                decoration: InputDecoration(labelText: "First Name"),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your First name";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  firstNameEditingController.text = value!;
+                },
+              ),
+              TextFormField(
+                controller: secondNameEditingController,
+                decoration: InputDecoration(labelText: "Last Name"),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your Last name";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  secondNameEditingController.text = value!;
+                },
+              ),
+              TextFormField(
+                controller: fssaiController,
                 decoration: InputDecoration(labelText: "FSSAI Number"),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -68,12 +100,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      print("Email: ${_emailController.text}");
-                      print("Password: ${_passwordController.text}");
-                      print("Full Name: ${_nameController.text}");
-                      print("FSSAI Number: ${_fssaiController.text}");
-                    }
+                    signUp(emailEditingController.text,
+                        passwordEditingController.text);
                   },
                   child: Text("Sign Up"),
                 ),
@@ -81,13 +109,14 @@ class _SignUpPageState extends State<SignUpPage> {
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => LoginPage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          LoginPage(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ),
+                  );
                 },
                 child: Text('Already has an account? Login'),
               )
@@ -96,5 +125,70 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  void signUp(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()})
+            .catchError((e) {
+          Fluttertoast.showToast(msg: e!.message);
+        });
+      } on FirebaseAuthException catch (error) {
+        switch (error.code) {
+          case "invalid-email":
+            errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "wrong-password":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "user-not-found":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "user-disabled":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "too-many-requests":
+            errorMessage = "Too many requests";
+            break;
+          case "operation-not-allowed":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        Fluttertoast.showToast(msg: errorMessage!);
+        print(error.code);
+      }
+    }
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = firstNameEditingController.text;
+    userModel.secondName = secondNameEditingController.text;
+    userModel.fssai = fssaiController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+
+    Navigator.pushAndRemoveUntil((context),
+        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
   }
 }
