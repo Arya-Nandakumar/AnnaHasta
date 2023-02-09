@@ -1,5 +1,5 @@
+import 'package:annahasta/login.dart';
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/home.dart';
 import 'package:annahasta/Functions/colorhex.dart';
 
 void main() {
@@ -12,11 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AnnaHasta',
+      title: 'Login',
       theme: ThemeData(
+      
         primarySwatch: buildMaterialColor(Color(0xFF7A01FF)),
-      ),
-      home: HomePage(),
+      ), 
+      home: LoginPage(),
     );
   }
 }
