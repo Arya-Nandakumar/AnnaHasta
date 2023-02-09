@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "928912964412",
+    "project_id": "anna-hasta",
+    "storage_bucket": "anna-hasta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928912964412:android:631c245ec9108534d3fc39",
+        "android_client_info": {
+          "package_name": "com.aroha.annahasta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928912964412-f5862427pggq7rsounkuahr2nrdbnbm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNa05_pxx2v2Aibrw9D_ddnquQzD47xFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928912964412-f5862427pggq7rsounkuahr2nrdbnbm7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928912964412:android:e362fd8b3f584eeed3fc39",
+        "android_client_info": {
+          "package_name": "com.example.annahasta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928912964412-f5862427pggq7rsounkuahr2nrdbnbm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNa05_pxx2v2Aibrw9D_ddnquQzD47xFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928912964412-f5862427pggq7rsounkuahr2nrdbnbm7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
