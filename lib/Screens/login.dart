@@ -1,21 +1,82 @@
-import 'package:annahasta/Screens/home.dart';
-import 'package:annahasta/Screens/signup.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:annahasta/Screens/home.dart';
+import 'package:annahasta/Screens/SignUp.dart';
 
-class LoginPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-  final _auth = FirebaseAuth.instance;
-  String? errorMessage;
+class _SignInPageState extends State<SignInPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _isLoading = false;
+  bool _isLoginForm = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfLoggedIn();
+  }
+
+  // Check if the user is already logged in
+  void _checkIfLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    String? password = prefs.getString('password');
+    if (email != null && password != null) {
+      setState(() {
+        _isLoading = true;
+      });
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((user) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      }).catchError((error) {
+        print(error);
+      });
+    }
+  }
+
+  // Perform sign in or sign up
+  void _submit() async {
+    if (_formKey.currentState?.validate() == true) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+      if (_isLoginForm) {
+        // Login
+        firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((user) async {
+          // Store the user session
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('email', email);
+          prefs.setString('password', password);
+
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomePage()));
+        }).catchError((error) {
+          setState(() {
+            _isLoading = false;
+          });
+          print(error);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +90,12 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
-                  controller: emailController,
+                  controller: _emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your email';
                     }
                     return null;
-                  },
-                  onSaved: (value) {
-                    emailController.text = value!;
                   },
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -45,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  controller: passwordController,
+                  controller: _passwordController,
                   obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -53,19 +111,21 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    passwordController.text = value!;
-                  },
                   decoration: InputDecoration(
                     labelText: 'Password',
                   ),
                 ),
-                SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {
-                    signIn(emailController.text, passwordController.text);
-                  },
-                  child: Text('Login'),
+                SizedBox(
+                  height: 20.0,
+                ),
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : ElevatedButton(
+                        child: Text('Sign In'),
+                        onPressed: _submit,
+                      ),
+                SizedBox(
+                  height: 20.0,
                 ),
                 TextButton(
                   onPressed: () {
@@ -101,44 +161,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void signIn(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await _auth
-            .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomePage())),
-                });
-      } on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
-
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage!);
-        print(error.code);
-      }
-    }
   }
 }

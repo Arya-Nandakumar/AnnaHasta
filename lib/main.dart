@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: buildMaterialColor(Color(0xFF7A01FF)),
       ),
-      home: LoginPage(),
+      home: SignInPage(),
     );
   }
 }
