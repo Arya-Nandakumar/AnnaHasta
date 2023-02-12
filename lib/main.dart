@@ -17,8 +17,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login',
       theme: ThemeData(
-        primarySwatch: buildMaterialColor(Color(0xFF7A01FF)),
+          brightness: Brightness.light,
+          colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
+          scaffoldBackgroundColor: buildMaterialColor(Color(0xFFFDF7FF))),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
       ),
+      themeMode: ThemeMode.system,
       home: SignInPage(),
     );
   }
