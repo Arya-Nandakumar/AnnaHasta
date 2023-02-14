@@ -17,10 +17,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login',
       theme: ThemeData(
-          brightness: Brightness.light,
-          colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
-          scaffoldBackgroundColor: buildMaterialColor(Color(0xFFFDF7FF))),
+        useMaterial3: true,
+        colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
+        appBarTheme: AppBarTheme(
+          color: buildMaterialColor(Color(0xFF7A01FF)),
+          foregroundColor: Colors.white,
+        ),
+      ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
         colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
       ),

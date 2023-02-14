@@ -1,4 +1,5 @@
 import 'package:annahasta/Screens/login.dart';
+import 'package:annahasta/Screens/verify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +132,11 @@ class _SignUpPageState extends State<SignUpPage> {
       try {
         await _auth
             .createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) => {postDetailsToFirestore()})
-            .catchError((e) {
+            .then((_) {
+          postDetailsToFirestore();
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => VerifyScreen()));
+        }).catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
         });
       } on FirebaseAuthException catch (error) {
@@ -180,12 +184,12 @@ class _SignUpPageState extends State<SignUpPage> {
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
     userModel.fssai = fssaiController.text;
+    userModel.isVerified = false;
 
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
 
     Navigator.pushAndRemoveUntil(
         (context),

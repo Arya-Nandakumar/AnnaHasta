@@ -15,13 +15,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 4,
         centerTitle: true,
         title: Text('AnnaHasta'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.account_circle_outlined,
-              color: Colors.white,
             ),
             tooltip: 'Profile',
             onPressed: () {

@@ -42,6 +42,7 @@ class _ContributePageState extends State<ContributePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 4,
           centerTitle: true,
           title: Text('Contribute'),
           automaticallyImplyLeading: false,
@@ -107,10 +108,14 @@ class _ContributePageState extends State<ContributePage> {
                 ),
               ),
             ),
+            SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(150, 50),
+                  ),
                   onPressed: () {
                     FirestoreHelper.create(
                       ContModel(

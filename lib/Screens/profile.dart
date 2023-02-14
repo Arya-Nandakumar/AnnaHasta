@@ -6,19 +6,23 @@ import 'package:annahasta/Screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String? email;
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
   @override
   void initState() {
     super.initState();
+    _fetchEmail();
+    if (loggedInUser.firstName == null && loggedInUser.secondName == null) {
+      loggedInUser.firstName = '';
+      loggedInUser.secondName = '';
+    }
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -26,6 +30,13 @@ class _ProfilePageState extends State<ProfilePage> {
         .then((value) {
       this.loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
+    });
+  }
+
+  void _fetchEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      email = (prefs.getString('email') ?? '');
     });
   }
 
@@ -50,15 +61,17 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(
                 height: 10,
               ),
-              Text("${loggedInUser.email}",
+              Text("${email}",
                   style: TextStyle(
-                    color: Colors.black54,
                     fontWeight: FontWeight.w500,
                   )),
               SizedBox(
                 height: 15,
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(150, 50),
+                ),
                 onPressed: () {
                   _logout();
                 },

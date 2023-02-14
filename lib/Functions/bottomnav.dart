@@ -9,23 +9,27 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedIndex,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+    return NavigationBar(
+      animationDuration: const Duration(seconds: 1),
+      selectedIndex: selectedIndex,
+      destinations: const <Widget>[
+        NavigationDestination(
+          selectedIcon: Icon(Icons.home),
+          icon: Icon(Icons.home_outlined),
           label: 'Home',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add),
+        NavigationDestination(
+          selectedIcon: Icon(Icons.add_circle_sharp),
+          icon: Icon(Icons.add_circle_outline_outlined),
           label: 'Contribute',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+        NavigationDestination(
+          selectedIcon: Icon(Icons.find_in_page_sharp),
+          icon: Icon(Icons.find_in_page_outlined),
           label: 'Search',
         ),
       ],
-      onTap: (int index) {
+      onDestinationSelected: (int index) {
         switch (index) {
           case 0:
             Navigator.pushReplacement(

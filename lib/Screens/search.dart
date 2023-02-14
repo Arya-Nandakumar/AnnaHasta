@@ -12,18 +12,17 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(FocusNode());
     return Scaffold(
       appBar: AppBar(
+        elevation: 4,
         title: TextField(
+          style: TextStyle(color: Colors.white),
           controller: _searchController,
-          focusNode: FocusNode(),
           decoration: InputDecoration(
             hintText: 'Search...',
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.white54),
+            hintStyle: TextStyle(color: Colors.grey[350]),
           ),
-          style: TextStyle(color: Colors.white),
           onSubmitted: (value) {
             // Perform the search here
           },
