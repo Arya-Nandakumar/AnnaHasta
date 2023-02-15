@@ -1,3 +1,4 @@
+import 'package:annahasta/Screens/reset.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -132,7 +133,7 @@ class _SignInPageState extends State<SignInPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            HomePage(),
+                            ResetScreen(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
