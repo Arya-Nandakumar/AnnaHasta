@@ -38,7 +38,26 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('An email has been sent to ${user?.email} please verify'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'An email has been sent to ${user?.email} please verify',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18.0),
+            ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => SignInPage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: Text('Back to Sign In'),
+            ),
+          ],
+        ),
       ),
     );
   }
