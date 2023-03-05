@@ -36,6 +36,14 @@ class _SearchPageState extends State<SearchPage> {
         if (boxID.contains(_searchController.text.toLowerCase())) {
           showResults.add(clientSnapShot);
         }
+        var caseID = clientSnapShot['caseID'].toString().toLowerCase();
+        if (caseID.contains(_searchController.text.toLowerCase())) {
+          showResults.add(clientSnapShot);
+        }
+        var contents = clientSnapShot['contents'].toString().toLowerCase();
+        if (contents.contains(_searchController.text.toLowerCase())) {
+          showResults.add(clientSnapShot);
+        }
       }
     } else {
       showResults = List.from(_allResults);
