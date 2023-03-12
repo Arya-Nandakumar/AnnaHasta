@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:annahasta/Screens/home.dart';
 import 'package:annahasta/Screens/SignUp.dart';
+import 'package:annahasta/Functions/decidepage.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
           prefs.setString('password', password);
 
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePage()));
+              MaterialPageRoute(builder: (context) => VerifyCheckPage()));
         }).catchError((error) {
           setState(() {
             _isLoading = false;
