@@ -17,7 +17,8 @@ class FirestoreHelper {
             boxID: box.boxID,
             vname: box.vname,
             caseID: box.caseID,
-            contents: box.contents)
+            contents: box.contents,
+            isveg: box.isveg)
         .toJson();
 
     try {
@@ -36,7 +37,8 @@ class FirestoreHelper {
             boxID: box.boxID,
             vname: box.vname,
             caseID: box.caseID,
-            contents: box.contents)
+            contents: box.contents,
+            isveg: box.isveg)
         .toJson();
 
     try {

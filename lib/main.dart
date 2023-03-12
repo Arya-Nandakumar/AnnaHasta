@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
         colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
+        appBarTheme: AppBarTheme(),
       ),
       themeMode: ThemeMode.system,
       home: SignInPage(),

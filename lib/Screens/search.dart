@@ -81,18 +81,19 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          elevation: 4,
           title: TextField(
-        controller: _searchController,
-        decoration: InputDecoration(
-          hintText: 'Search...',
-          hintStyle: TextStyle(color: Colors.white),
-          border: InputBorder.none,
-          icon: Icon(Icons.search, color: Colors.white),
-        ),
-        onChanged: (value) {
-          _onSearchChanged();
-        },
-      )),
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              hintStyle: TextStyle(color: Colors.white),
+              border: InputBorder.none,
+              icon: Icon(Icons.search, color: Colors.white),
+            ),
+            onChanged: (value) {
+              _onSearchChanged();
+            },
+          )),
       bottomNavigationBar: BottomNav(selectedIndex: 2),
       body: ListView.builder(
           itemCount: _resultList.length,

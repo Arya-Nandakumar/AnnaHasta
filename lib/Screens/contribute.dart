@@ -15,7 +15,10 @@ class ContributePage extends StatefulWidget {
   _ContributePageState createState() => _ContributePageState();
 }
 
+enum FoodType { veg, nonVeg }
+
 class _ContributePageState extends State<ContributePage> {
+  FoodType _foodType = FoodType.veg;
   TextEditingController _locationController = TextEditingController();
   TextEditingController _quantityController = TextEditingController();
   TextEditingController _dateTimeController = TextEditingController();
@@ -110,6 +113,32 @@ class _ContributePageState extends State<ContributePage> {
             ),
             SizedBox(height: 20.0),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Radio(
+                  value: FoodType.veg,
+                  groupValue: _foodType,
+                  onChanged: (FoodType? value) {
+                    setState(() {
+                      _foodType = value!;
+                    });
+                  },
+                ),
+                Text('Veg'),
+                Radio(
+                  value: FoodType.nonVeg,
+                  groupValue: _foodType,
+                  onChanged: (FoodType? value) {
+                    setState(() {
+                      _foodType = value!;
+                    });
+                  },
+                ),
+                Text('Non Veg'),
+              ],
+            ),
+            SizedBox(height: 20.0),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
@@ -123,7 +152,7 @@ class _ContributePageState extends State<ContributePage> {
                           caseID: _quantityController.text,
                           contents: _dateTimeController.text,
                           vname: _phoneController.text,
-                          isveg: _menuController.text),
+                          isveg: _foodType.toString()),
                     ).then((value) {
                       Fluttertoast.showToast(msg: 'Posted!');
                       Navigator.push(
