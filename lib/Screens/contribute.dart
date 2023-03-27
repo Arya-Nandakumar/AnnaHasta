@@ -30,7 +30,7 @@ class _ContributePageState extends State<ContributePage> {
   Future<Null> _selectDateAndTime(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDateTime ?? DateTime.now(),
+        initialDate: selectedDateTime,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDateTime)

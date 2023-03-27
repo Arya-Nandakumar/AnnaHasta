@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:annahasta/Screens/home.dart';
 import 'package:annahasta/Screens/SignUp.dart';
 import 'package:annahasta/Functions/decidepage.dart';
+import 'package:quickalert/quickalert.dart';
 
 class SignInPage extends StatefulWidget {
   @override
