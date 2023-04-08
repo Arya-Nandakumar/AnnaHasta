@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/home.dart';
-import 'package:annahasta/Screens/contribute.dart';
-import 'package:annahasta/Screens/search.dart';
+import 'package:annahasta/Screens/ngo/home.dart';
+import 'package:annahasta/Screens/ngo/contribute.dart';
+import 'package:annahasta/Screens/ngo/search.dart';
 
 class BottomNav extends StatelessWidget {
   final int selectedIndex;
@@ -17,11 +17,6 @@ class BottomNav extends StatelessWidget {
           selectedIcon: Icon(Icons.home),
           icon: Icon(Icons.home_outlined),
           label: 'Home',
-        ),
-        NavigationDestination(
-          selectedIcon: Icon(Icons.add_circle_sharp),
-          icon: Icon(Icons.add_circle_outline_outlined),
-          label: 'Contribute',
         ),
         NavigationDestination(
           selectedIcon: Icon(Icons.find_in_page_sharp),
@@ -41,18 +36,18 @@ class BottomNav extends StatelessWidget {
               ),
             );
             break;
+          // case 1:
+          //   Navigator.pushReplacement(
+          //     context,
+          //     PageRouteBuilder(
+          //       pageBuilder: (context, animation1, animation2) =>
+          //           ContributePage(),
+          //       transitionDuration: Duration.zero,
+          //       reverseTransitionDuration: Duration.zero,
+          //     ),
+          //   );
+          //   break;
           case 1:
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) =>
-                    ContributePage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-            break;
-          case 2:
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(

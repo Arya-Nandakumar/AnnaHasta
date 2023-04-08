@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:annahasta/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/login.dart';
+import 'package:annahasta/Screens/common/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RemindVerifyPage extends StatefulWidget {

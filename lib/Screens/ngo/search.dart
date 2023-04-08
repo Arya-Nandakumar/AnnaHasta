@@ -94,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
               _onSearchChanged();
             },
           )),
-      bottomNavigationBar: BottomNav(selectedIndex: 2),
+      bottomNavigationBar: BottomNav(selectedIndex: 1),
       body: ListView.builder(
           itemCount: _resultList.length,
           itemBuilder: (context, index) {

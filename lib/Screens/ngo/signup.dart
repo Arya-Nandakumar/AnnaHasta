@@ -1,4 +1,4 @@
-import 'package:annahasta/Screens/login.dart';
+import 'package:annahasta/Screens/common/login.dart';
 import 'package:annahasta/Screens/verify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -118,8 +118,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   );
                 },
-                child: Text('Already has an account? Login'),
-              )
+                child: Text('Already have an account? Login'),
+              ),
             ],
           ),
         ),

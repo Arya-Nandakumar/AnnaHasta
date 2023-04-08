@@ -2,8 +2,8 @@ import 'package:annahasta/Screens/reset.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:annahasta/Screens/home.dart';
-import 'package:annahasta/Screens/SignUp.dart';
+import 'package:annahasta/Screens/ngo/home.dart';
+import 'package:annahasta/Screens/common/dec_signup.dart';
 import 'package:annahasta/Functions/decidepage.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -39,7 +39,7 @@ class _SignInPageState extends State<SignInPage> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((user) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()));
+            MaterialPageRoute(builder: (context) => VerifyCheckPage()));
       }).catchError((error) {
         print(error);
       });
@@ -91,6 +91,10 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Image.asset(
+                  'assets/icon/logo_c.png',
+                  height: 150, // Set the height of the logo image
+                ),
                 TextFormField(
                   controller: _emailController,
                   validator: (value) {
@@ -149,7 +153,7 @@ class _SignInPageState extends State<SignInPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            SignUpPage(),
+                            DSignUpPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),

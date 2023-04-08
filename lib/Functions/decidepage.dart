@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:annahasta/Screens/home.dart';
+import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:annahasta/Screens/remindv.dart';
+import 'package:annahasta/Screens/user/home.dart';
 
 class VerifyCheckPage extends StatefulWidget {
   @override
@@ -29,8 +30,15 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
       setState(() {
         _isLoading = true;
       });
+      if(loggedInUser.fssai != null)
+      {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      }
+      else{
+        Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => UserHomePage()));
+      }
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => RemindVerifyPage()));

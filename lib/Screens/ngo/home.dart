@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
-import 'package:annahasta/Screens/profile.dart';
+import 'package:annahasta/Screens/common/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
-import '../models/remote_data_source/firestore_helper.dart';
+import '../../models/remote_data_source/firestore_helper.dart';
 
 class HomePage extends StatefulWidget {
   @override
