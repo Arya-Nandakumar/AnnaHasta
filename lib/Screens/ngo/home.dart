@@ -1,9 +1,11 @@
+import 'package:annahasta/Screens/ngo/details.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/Screens/common/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
+import 'package:annahasta/Screens/ngo/details.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -75,6 +77,9 @@ class _HomePageState extends State<HomePage> {
                                 child: ListTile(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 10.0),
+                                  onTap: () {
+                                    ReadPage();
+                                  },
                                   onLongPress: () {
                                     showDialog(
                                         context: context,

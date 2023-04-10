@@ -27,18 +27,32 @@ class _ContributePageState extends State<ContributePage> {
   late DateTime selectedDateTime;
   final _formKey = GlobalKey<FormState>();
 
-  Future<Null> _selectDateAndTime(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateTime,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDateTime)
-      setState(() {
-        selectedDateTime = picked;
-        _dateTimeController.text =
-            "${DateFormat('dd/MM/yyyy HH:mm').format(selectedDateTime)}";
-      });
+  Future<void> _selectDateAndTime(BuildContext context) async {
+    final now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDateTime,
+      firstDate: now,
+      lastDate: DateTime(2101),
+      selectableDayPredicate: (date) =>
+          date.isAfter(now.subtract(Duration(days: 1))),
+    );
+    if (pickedDate == null) return;
+    final pickedDateTime =
+        DateTime(pickedDate.year, pickedDate.month, pickedDate.day);
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(selectedDateTime),
+    );
+    if (pickedTime == null) return;
+    final pickedDateTimeWithTime = pickedDateTime
+        .add(Duration(hours: pickedTime.hour, minutes: pickedTime.minute));
+    if (pickedDateTimeWithTime.isBefore(DateTime.now())) return;
+    setState(() {
+      selectedDateTime = pickedDateTimeWithTime;
+      _dateTimeController.text =
+          DateFormat('dd/MM/yyyy HH:mm').format(selectedDateTime);
+    });
   }
 
   @override
@@ -63,11 +77,31 @@ class _ContributePageState extends State<ContributePage> {
             ),
             Padding(
               padding: EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _quantityController,
-                decoration: const InputDecoration(
-                  labelText: "Quantity",
-                  focusedBorder: OutlineInputBorder(),
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _quantityController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Quantity",
+                    focusedBorder: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a value greater than 10';
+                    }
+                    final intValue = int.tryParse(value);
+                    if (intValue == null) {
+                      return 'Please enter a valid integer value greater than 10';
+                    }
+                    if (intValue <= 10) {
+                      return 'Please enter a value greater than 10';
+                    }
+                    if (value.contains("-")) {
+                      return 'Please enter a value that is not negative';
+                    }
+                    return null;
+                  },
                 ),
               ),
             ),
@@ -83,8 +117,8 @@ class _ContributePageState extends State<ContributePage> {
                   final selectedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(Duration(days: 365)),
-                    lastDate: DateTime.now().add(Duration(days: 365)),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 7)),
                   );
                   if (selectedDate != null) {
                     final selectedTime = await showTimePicker(
