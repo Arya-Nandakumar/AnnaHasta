@@ -30,14 +30,12 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
       setState(() {
         _isLoading = true;
       });
-      if(loggedInUser.fssai != null)
-      {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-      }
-      else{
-        Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => UserHomePage()));
+      if (loggedInUser.fssai != null) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => UserHomePage()));
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
       }
     } else {
       Navigator.of(context).pushReplacement(
