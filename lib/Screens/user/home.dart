@@ -77,9 +77,6 @@ class _UserHomePageState extends State<UserHomePage> {
                                 child: ListTile(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 10.0),
-                                  onTap: () {
-                                    ReadPage();
-                                  },
                                   onLongPress: () {
                                     showDialog(
                                         context: context,

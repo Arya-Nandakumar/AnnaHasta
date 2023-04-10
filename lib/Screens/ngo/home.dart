@@ -5,7 +5,6 @@ import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/Screens/common/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
-import 'package:annahasta/Screens/ngo/details.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,7 +77,47 @@ class _HomePageState extends State<HomePage> {
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 10.0),
                                   onTap: () {
-                                    ReadPage();
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text("Details"),
+                                          content: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                  "Location: ${singleUser.boxID}"),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                  "Quantity: ${singleUser.caseID}"),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                  "Vegetarian: ${singleUser.isveg == "FoodType.veg" ? "Yes" : "No"}"),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                  "Date & Time: ${singleUser.contents}"),
+                                              SizedBox(height: 5),
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Close'),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                
+                                              },
+                                              child: Text('Proceed'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   onLongPress: () {
                                     showDialog(
