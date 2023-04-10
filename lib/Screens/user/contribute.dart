@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:annahasta/models/cont_model.dart';
 import 'package:annahasta/models/remote_data_source/firestore_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:annahasta/Screens/ngo/home.dart';
+import 'package:annahasta/Screens/user/home.dart';
 import 'package:annahasta/Functions/userbottomnav.dart';
 
 class ContributePage extends StatefulWidget {
@@ -62,6 +62,7 @@ class _ContributePageState extends State<ContributePage> {
           elevation: 4,
           centerTitle: true,
           title: Text('Contribute'),
+          automaticallyImplyLeading: false,
         ),
         bottomNavigationBar: UserBottomNav(selectedIndex: 1),
         body: Column(
@@ -179,20 +180,23 @@ class _ContributePageState extends State<ContributePage> {
                     minimumSize: Size(150, 50),
                   ),
                   onPressed: () {
-                    FirestoreHelper.create(
-                      ContModel(
-                          boxID: _locationController.text,
-                          caseID: _quantityController.text,
-                          contents: _dateTimeController.text,
-                          vname: _phoneController.text,
-                          isveg: _foodType.toString()),
-                    ).then((value) {
-                      Fluttertoast.showToast(msg: 'Posted!');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    });
+                    if (_formKey.currentState!.validate()) {
+                      FirestoreHelper.create(
+                        ContModel(
+                            boxID: _locationController.text,
+                            caseID: _quantityController.text,
+                            contents: _dateTimeController.text,
+                            vname: _phoneController.text,
+                            isveg: _foodType.toString()),
+                      ).then((value) {
+                        Fluttertoast.showToast(msg: 'Posted!');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserHomePage()),
+                        );
+                      });
+                    }
                   },
                   child: const Text('Create'),
                 ),
