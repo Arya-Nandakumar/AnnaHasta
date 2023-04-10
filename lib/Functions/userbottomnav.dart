@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/ngo/home.dart';
-import 'package:annahasta/Screens/ngo/search.dart';
+import 'package:annahasta/Screens/user/home.dart';
+import 'package:annahasta/Screens/user/search.dart';
+import 'package:annahasta/Screens/user/contribute.dart';
 
-class BottomNav extends StatelessWidget {
+class UserBottomNav extends StatelessWidget {
   final int selectedIndex;
-  BottomNav({this.selectedIndex = 0});
+  UserBottomNav({this.selectedIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,11 @@ class BottomNav extends StatelessWidget {
           label: 'Home',
         ),
         NavigationDestination(
+          selectedIcon: Icon(Icons.add_circle_sharp),
+          icon: Icon(Icons.add_circle_outline_outlined),
+          label: 'Contribute',
+        ),
+        NavigationDestination(
           selectedIcon: Icon(Icons.find_in_page_sharp),
           icon: Icon(Icons.find_in_page_outlined),
           label: 'Search',
@@ -29,23 +35,34 @@ class BottomNav extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => HomePage(),
+                pageBuilder: (context, animation1, animation2) =>
+                    UserHomePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
             );
             break;
-          // case 1:
-          //   Navigator.pushReplacement(
-          //     context,
-          //     PageRouteBuilder(
-          //       pageBuilder: (context, animation1, animation2) =>
-          //           ContributePage(),
-          //       transitionDuration: Duration.zero,
-          //       reverseTransitionDuration: Duration.zero,
-          //     ),
-          //   );
-          //   break;
+          case 1:
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) =>
+                    ContributePage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
+            );
+            break;
+          case 2:
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => SearchPage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
+            );
+            break;
           case 1:
             Navigator.pushReplacement(
               context,

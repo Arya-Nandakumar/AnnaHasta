@@ -8,7 +8,7 @@ import 'package:annahasta/models/cont_model.dart';
 import 'package:annahasta/models/remote_data_source/firestore_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:annahasta/Screens/ngo/home.dart';
-import 'package:annahasta/Functions/bottomnav.dart';
+import 'package:annahasta/Functions/userbottomnav.dart';
 
 class ContributePage extends StatefulWidget {
   @override
@@ -63,6 +63,7 @@ class _ContributePageState extends State<ContributePage> {
           centerTitle: true,
           title: Text('Contribute'),
         ),
+        bottomNavigationBar: UserBottomNav(selectedIndex: 1),
         body: Column(
           children: <Widget>[
             Padding(

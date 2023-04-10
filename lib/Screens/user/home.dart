@@ -1,7 +1,11 @@
+import 'package:annahasta/Screens/ngo/details.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Screens/common/profile.dart';
-import 'package:annahasta/Screens/user/contribute.dart';
+import 'package:annahasta/models/cont_model.dart';
+import '../../models/remote_data_source/firestore_helper.dart';
+import 'package:annahasta/Screens/ngo/details.dart';
+import 'package:annahasta/Functions/userbottomnav.dart';
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -39,59 +43,105 @@ class _UserHomePageState extends State<UserHomePage> {
         ],
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left:20.0, right: 20.0, top: 20.0),
-              child: Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ContributePage()),
-                      );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Contribute Food',
-                    style: TextStyle(fontSize: 24.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ContributePage()),
-                      );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Donate Items',
-                    style: TextStyle(fontSize: 24.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+      bottomNavigationBar: UserBottomNav(selectedIndex: 0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            StreamBuilder<List<ContModel>>(
+                stream: FirestoreHelper.read(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("some error occured"),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    final userData = snapshot.data;
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: userData!.length,
+                          itemBuilder: (context, index) {
+                            final singleUser = userData[index];
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
+                                  onTap: () {
+                                    ReadPage();
+                                  },
+                                  onLongPress: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text("Delete"),
+                                            content: Text(
+                                                "Are you sure you want to delete"),
+                                            actions: [
+                                              ElevatedButton(
+                                                  style: const ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStatePropertyAll<
+                                                                Color>(
+                                                            Color.fromARGB(255,
+                                                                198, 40, 40)),
+                                                  ),
+                                                  onPressed: () {
+                                                    FirestoreHelper.delete(
+                                                            singleUser)
+                                                        .then((value) {
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  child: Text("Delete"))
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  title: Row(
+                                    children: [
+                                      if (singleUser.isveg == "FoodType.veg")
+                                        Image.asset(
+                                          'assets/veg.png',
+                                          height: 15,
+                                        ),
+                                      if (singleUser.isveg == "FoodType.nonVeg")
+                                        Image.asset(
+                                          'assets/nonveg.png',
+                                          height: 15,
+                                        ),
+                                      // Add leading idd leading icon
+                                      SizedBox(
+                                          width:
+                                              10), // Add some space between the icon and text
+                                      Text("${singleUser.boxID}"),
+                                    ],
+                                  ),
+                                  subtitle: Text(
+                                      "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}"),
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                })
+          ],
+        ),
       ),
     );
   }
