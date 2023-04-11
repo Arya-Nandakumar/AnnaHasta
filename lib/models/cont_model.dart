@@ -7,8 +7,9 @@ class ContModel {
   final String? contents;
   final String? isveg;
   final String? itemtype;
+  final String? userid;
 
-  ContModel({this.boxID, this.caseID, this.vname, this.contents, this.isveg, this.itemtype});
+  ContModel({this.boxID, this.caseID, this.vname, this.contents, this.isveg, this.itemtype, this.userid});
 
   factory ContModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -19,7 +20,9 @@ class ContModel {
         caseID: snapshot['caseID'],
         contents: snapshot['contents'],
         isveg: snapshot['isveg'],
-        itemtype: snapshot['itemtype']);
+        itemtype: snapshot['itemtype'],
+        userid: snapshot['userid']
+        );
   }
 
   Map<String, dynamic> toJson() => {
@@ -29,5 +32,6 @@ class ContModel {
         "contents": contents,
         "isveg": isveg,
         "itemtype": itemtype,
+        "userid": userid
       };
 }

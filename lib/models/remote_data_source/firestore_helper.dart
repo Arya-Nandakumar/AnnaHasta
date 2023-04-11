@@ -19,7 +19,8 @@ class FirestoreHelper {
             caseID: box.caseID,
             contents: box.contents,
             isveg: box.isveg,
-            itemtype: box.itemtype)
+            itemtype: box.itemtype,
+            userid: box.userid)
         .toJson();
 
     try {
@@ -40,7 +41,8 @@ class FirestoreHelper {
             caseID: box.caseID,
             contents: box.contents,
             isveg: box.isveg,
-            itemtype: box.itemtype)
+            itemtype: box.itemtype,
+            userid: box.userid)
         .toJson();
 
     try {

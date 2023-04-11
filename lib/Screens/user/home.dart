@@ -2,7 +2,7 @@ import 'package:annahasta/Screens/ngo/details.dart';
 import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
-import 'package:annahasta/Screens/common/profile.dart';
+import 'package:annahasta/Screens/user/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
 import 'package:annahasta/Screens/ngo/details.dart';
@@ -89,35 +89,6 @@ class _UserHomePageState extends State<UserHomePage> {
                                 child: ListTile(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 10.0),
-                                  onLongPress: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Delete"),
-                                            content: Text(
-                                                "Are you sure you want to delete"),
-                                            actions: [
-                                              ElevatedButton(
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll<
-                                                                Color>(
-                                                            Color.fromARGB(255,
-                                                                198, 40, 40)),
-                                                  ),
-                                                  onPressed: () {
-                                                    FirestoreHelper.delete(
-                                                            singleUser)
-                                                        .then((value) {
-                                                      Navigator.pop(context);
-                                                    });
-                                                  },
-                                                  child: Text("Delete"))
-                                            ],
-                                          );
-                                        });
-                                  },
                                   title: Row(
                                     children: [
                                       if (singleUser.isveg == "FoodType.veg")

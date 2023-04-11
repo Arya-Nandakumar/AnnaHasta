@@ -10,6 +10,7 @@ import 'package:annahasta/models/remote_data_source/firestore_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:annahasta/Screens/user/home.dart';
 import 'package:annahasta/Functions/userbottomnav.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ContributePage extends StatefulWidget {
   @override
@@ -26,7 +27,21 @@ class _ContributePageState extends State<ContributePage> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _menuController = TextEditingController();
   late DateTime selectedDateTime;
+  String? userID;
   final _formKey = GlobalKey<FormState>();
+
+    @override
+  void initState() {
+    super.initState();
+    _fetchUserID();
+    }
+  void _fetchUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userID = (prefs.getString('userid') ?? '');
+    }
+    );
+  }
 
   Future<void> _selectDateAndTime(BuildContext context) async {
     final now = DateTime.now();
@@ -214,7 +229,9 @@ class _ContributePageState extends State<ContributePage> {
                             caseID: _quantityController.text,
                             contents: _dateTimeController.text,
                             vname: _phoneController.text,
-                            isveg: _foodType.toString()),
+                            isveg: _foodType.toString(),
+                            userid: userID,),
+
                       ).then((value) {
                         Fluttertoast.showToast(msg: 'Posted!');
                         Navigator.push(

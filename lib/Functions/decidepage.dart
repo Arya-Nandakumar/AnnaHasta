@@ -24,12 +24,15 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
     pullData();
   }
 
-  void decidePage() {
+  Future<void> decidePage() async {
     print("Hello2${loggedInUser.isVerified}");
     if (loggedInUser.isVerified == true) {
       setState(() {
         _isLoading = true;
       });
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('userid',user!.uid );
       if (loggedInUser.fssai != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => UserHomePage()));
