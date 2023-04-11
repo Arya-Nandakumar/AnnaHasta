@@ -1,4 +1,5 @@
 import 'package:annahasta/Screens/ngo/details.dart';
+import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Screens/common/profile.dart';
@@ -19,9 +20,20 @@ class _UserHomePageState extends State<UserHomePage> {
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
-        title: Text(
-          'AnnaHasta',
-        ),
+         title: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      HomePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+            },
+            child: Text('AnnaHasta',),
+          ),
         actions: <Widget>[
           IconButton(
             icon: Icon(

@@ -1,3 +1,5 @@
+import 'package:annahasta/Functions/userbottomnav.dart';
+import 'package:annahasta/Screens/user/contribute.dart';
 import 'package:annahasta/models/cont_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:annahasta/models/remote_data_source/firestore_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:annahasta/Screens/home.dart';
+import 'package:annahasta/Screens/user/home.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/models/cont_model.dart';
 
@@ -49,7 +51,34 @@ Widget build(BuildContext context) {
         centerTitle: true,
         title: Text('Donate Items'),
         automaticallyImplyLeading: false,
-      ),
+      actions: [
+        PopupMenuButton(
+          itemBuilder: (context){
+            return [
+                  PopupMenuItem<int>(
+                      value: 0,
+                      child: Text("Contribute Food"),
+                  ),
+              ];
+          },
+          onSelected:(value){
+            if(value == 0){
+                 Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      ContributePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+            }
+          }
+        ),
+
+  ],
+        ),
+        bottomNavigationBar: UserBottomNav(selectedIndex: 1),
       body: Column(
         children: <Widget>[
         Padding(
@@ -140,7 +169,7 @@ Widget build(BuildContext context) {
                         Fluttertoast.showToast(msg: "Item Added");
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => UserHomePage()),
                           );
         
                       });

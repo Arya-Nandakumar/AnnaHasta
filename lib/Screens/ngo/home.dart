@@ -5,6 +5,7 @@ import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/Screens/common/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
+import 'package:annahasta/Screens/user/home.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,9 +19,20 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
-        title: Text(
-          'AnnaHasta',
-        ),
+         title: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      UserHomePage(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+            },
+            child: Text('AnnaHasta',),
+          ),
         actions: <Widget>[
           IconButton(
             icon: Icon(

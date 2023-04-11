@@ -1,3 +1,4 @@
+import 'package:annahasta/Screens/user/donateitem.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,32 @@ class _ContributePageState extends State<ContributePage> {
           centerTitle: true,
           title: Text('Contribute'),
           automaticallyImplyLeading: false,
+          actions: [
+        PopupMenuButton(
+          itemBuilder: (context){
+            return [
+                  PopupMenuItem<int>(
+                      value: 0,
+                      child: Text("Donate something other than Food"),
+                  ),
+              ];
+          },
+          onSelected:(value){
+            if(value == 0){
+                 Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      donateitem(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
+            }
+          }
+        ),
+
+  ],
         ),
         bottomNavigationBar: UserBottomNav(selectedIndex: 1),
         body: Column(
