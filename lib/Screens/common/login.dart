@@ -1,4 +1,4 @@
-import 'package:annahasta/Screens/reset.dart';
+import 'package:annahasta/Screens/common/reset.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';

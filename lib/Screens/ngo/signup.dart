@@ -1,5 +1,5 @@
 import 'package:annahasta/Screens/common/login.dart';
-import 'package:annahasta/Screens/verify.dart';
+import 'package:annahasta/Screens/common/verify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

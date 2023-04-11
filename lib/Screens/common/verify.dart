@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,15 +46,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
               style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => SignInPage()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: Text('Back to Sign In'),
-            ),
           ],
         ),
       ),
