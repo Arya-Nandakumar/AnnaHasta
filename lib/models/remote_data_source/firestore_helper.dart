@@ -9,26 +9,25 @@ class FirestoreHelper {
   }
 
   static Future create(ContModel box) async {
-    final contCollection = FirebaseFirestore.instance.collection("listings");
-    final bid = contCollection.doc(box.boxID).id;
-    final docRef = contCollection.doc(bid);
+  final contCollection = FirebaseFirestore.instance.collection("listings");
 
-    final newUser = ContModel(
-            boxID: box.boxID,
-            vname: box.vname,
-            caseID: box.caseID,
-            contents: box.contents,
-            isveg: box.isveg,
-            itemtype: box.itemtype,
-            userid: box.userid)
-        .toJson();
+  final newUser = ContModel(
+    boxID: box.boxID,
+    vname: box.vname,
+    caseID: box.caseID,
+    contents: box.contents,
+    isveg: box.isveg,
+    itemtype: box.itemtype,
+    userid: box.userid,
+  ).toJson();
 
-    try {
-      await docRef.set(newUser);
-    } catch (e) {
-      print("some error occured $e");
-    }
+  try {
+    await contCollection.add(newUser);
+  } catch (e) {
+    print("some error occurred: $e");
   }
+}
+
 
   static Future update(ContModel box) async {
     final contCollection = FirebaseFirestore.instance.collection("listings");
