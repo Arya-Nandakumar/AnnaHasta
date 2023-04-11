@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
-                                                
+
                                               },
                                               child: Text('Proceed'),
                                             ),
@@ -118,35 +118,6 @@ class _HomePageState extends State<HomePage> {
                                         );
                                       },
                                     );
-                                  },
-                                  onLongPress: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Delete"),
-                                            content: Text(
-                                                "Are you sure you want to delete"),
-                                            actions: [
-                                              ElevatedButton(
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll<
-                                                                Color>(
-                                                            Color.fromARGB(255,
-                                                                198, 40, 40)),
-                                                  ),
-                                                  onPressed: () {
-                                                    FirestoreHelper.delete(
-                                                            singleUser)
-                                                        .then((value) {
-                                                      Navigator.pop(context);
-                                                    });
-                                                  },
-                                                  child: Text("Delete"))
-                                            ],
-                                          );
-                                        });
                                   },
                                   title: Row(
                                     children: [
