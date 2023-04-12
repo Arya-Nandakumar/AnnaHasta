@@ -2,7 +2,7 @@ import 'package:annahasta/Screens/ngo/details.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
-import 'package:annahasta/Screens/common/profile.dart';
+import 'package:annahasta/Screens/ngo/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
 import 'package:annahasta/Screens/user/home.dart';

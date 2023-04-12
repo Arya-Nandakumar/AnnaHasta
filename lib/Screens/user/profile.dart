@@ -176,6 +176,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 'assets/nonveg.png',
                                 height: 15,
                               ),
+                            if (singleUser.isveg == "thing")
+                                        Image.asset(
+                                          'assets/thing.png',
+                                          height: 20,
+                                        ),
                             SizedBox(width: 10),
                             Text("${singleUser.boxID}"),
                           ],

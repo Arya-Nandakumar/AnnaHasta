@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:annahasta/Screens/user/home.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/models/cont_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class donateitem extends StatefulWidget {
   @override
@@ -27,6 +28,20 @@ class _donateitemState extends State<donateitem> {
   TextEditingController _itemnameController = TextEditingController();
   late DateTime selectedDateTime;
   final _formKey = GlobalKey<FormState>();
+  String? userID;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserID();
+  }
+
+  void _fetchUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userID = (prefs.getString('userid') ?? '');
+    });
+  }
 
   Future<void> _selectDateAndTime(BuildContext context) async {
     final now = DateTime.now();
@@ -186,6 +201,8 @@ class _donateitemState extends State<donateitem> {
                     vname: _phoneController.text,
                     contents: _dateTimeController.text,
                     itemtype: _itemnameController.text,
+                    isveg: "thing",
+                    userid: userID,
                   )).then((value) {
                     Fluttertoast.showToast(msg: "Item Added!");
                     Navigator.push(

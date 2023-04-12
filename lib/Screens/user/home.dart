@@ -20,20 +20,21 @@ class _UserHomePageState extends State<UserHomePage> {
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
-         title: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      HomePage(),
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
-              );
-            },
-            child: Text('AnnaHasta',),
+        title: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation1, animation2) => HomePage(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),
+            );
+          },
+          child: Text(
+            'AnnaHasta',
           ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -100,6 +101,11 @@ class _UserHomePageState extends State<UserHomePage> {
                                         Image.asset(
                                           'assets/nonveg.png',
                                           height: 15,
+                                        ),
+                                      if (singleUser.isveg == "thing")
+                                        Image.asset(
+                                          'assets/thing.png',
+                                          height: 20,
                                         ),
                                       // Add leading idd leading icon
                                       SizedBox(
