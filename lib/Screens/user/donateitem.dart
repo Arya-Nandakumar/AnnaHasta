@@ -13,7 +13,6 @@ import 'package:annahasta/Screens/user/home.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/models/cont_model.dart';
 
-
 class donateitem extends StatefulWidget {
   @override
   State<donateitem> createState() => _donateitemState();
@@ -56,28 +55,26 @@ class _donateitemState extends State<donateitem> {
           DateFormat('dd/MM/yyyy HH:mm').format(selectedDateTime);
     });
   }
- 
- @override
-Widget build(BuildContext context) {
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 4,
         centerTitle: true,
         title: Text('Donate Items'),
         automaticallyImplyLeading: false,
-      actions: [
-        PopupMenuButton(
-          itemBuilder: (context){
+        actions: [
+          PopupMenuButton(itemBuilder: (context) {
             return [
-                  PopupMenuItem<int>(
-                      value: 0,
-                      child: Text("Contribute Food"),
-                  ),
-              ];
-          },
-          onSelected:(value){
-            if(value == 0){
-                 Navigator.push(
+              PopupMenuItem<int>(
+                value: 0,
+                child: Text("Contribute Food"),
+              ),
+            ];
+          }, onSelected: (value) {
+            if (value == 0) {
+              Navigator.push(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
@@ -87,112 +84,122 @@ Widget build(BuildContext context) {
                 ),
               );
             }
-          }
+          }),
+        ],
+      ),
+      bottomNavigationBar: UserBottomNav(selectedIndex: 1),
+      body: Column(children: <Widget>[
+        Padding(
+            padding: EdgeInsets.all(16),
+            child: TextFormField(
+              controller: _locationController,
+              decoration: const InputDecoration(
+                labelText: "Location",
+                focusedBorder: OutlineInputBorder(),
+              ),
+            )),
+        Padding(
+            padding: EdgeInsets.all(16),
+            child: TextFormField(
+              controller: _itemnameController,
+              decoration: const InputDecoration(
+                labelText: "Item name",
+                focusedBorder: OutlineInputBorder(),
+              ),
+            )),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: TextFormField(
+              controller: _quantityController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "Number of items",
+                focusedBorder: OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a value';
+                }
+                final intValue = int.tryParse(value);
+                if (intValue == null) {
+                  return 'Please enter a valid integer value';
+                }
+                if (value.contains("-")) {
+                  return 'Please enter a value that is not negative';
+                }
+                return null;
+              },
+            ),
+          ),
         ),
-
-  ],
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: TextFormField(
+            controller: _dateTimeController,
+            decoration: const InputDecoration(
+              labelText: "Date and Time",
+              focusedBorder: OutlineInputBorder(),
+            ),
+            onTap: () async {
+              final selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(Duration(days: 7)),
+              );
+              if (selectedDate != null) {
+                final selectedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (selectedTime != null) {
+                  _dateTimeController.text =
+                      "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                }
+              }
+            },
+          ),
         ),
-        bottomNavigationBar: UserBottomNav(selectedIndex: 1),
-      body: Column(
-        children: <Widget>[
         Padding(
           padding: EdgeInsets.all(16),
           child: TextFormField(
-            controller: _locationController,
+            controller: _phoneController,
             decoration: const InputDecoration(
-              labelText: "Location",
+              labelText: "Phone Number",
               focusedBorder: OutlineInputBorder(),
             ),
-          )
           ),
-          Padding(
-            padding: EdgeInsets.all(16),
-          child: TextFormField(
-            controller: _itemnameController,
-            decoration: const InputDecoration(
-              labelText: "Item name",
-              focusedBorder: OutlineInputBorder(),
-            ),
-          )
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: TextFormField(
-              controller: _quantityController,
-              decoration: const InputDecoration(
-                labelText: "Number of items",
-                focusedBorder: OutlineInputBorder()
-              )
-              ),
-            ),
-          Padding(
-              padding: EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _dateTimeController,
-                decoration: const InputDecoration(
-                  labelText: "Date and Time",
-                  focusedBorder: OutlineInputBorder(),
-                ),
-                onTap: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 7)),
-                  );
-                  if (selectedDate != null) {
-                    final selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
+        ),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(minimumSize: Size(150, 50)),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  FirestoreHelper.create(ContModel(
+                    boxID: _locationController.text,
+                    caseID: _quantityController.text,
+                    vname: _phoneController.text,
+                    contents: _dateTimeController.text,
+                    itemtype: _itemnameController.text,
+                  )).then((value) {
+                    Fluttertoast.showToast(msg: "Item Added!");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserHomePage()),
                     );
-                    if (selectedTime != null) {
-                      _dateTimeController.text =
-                          "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
-                    }
-                  }
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: "Phone Number",
-                  focusedBorder: OutlineInputBorder(),
-                ),
-              ),
-              ),
-              SizedBox(height:20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(minimumSize: Size(150, 50)),
-                    onPressed: () {
-                      FirestoreHelper.create(
-                        ContModel(
-                          boxID: _locationController.text,
-                          caseID: _quantityController.text,
-                          vname: _phoneController.text,
-                          contents: _dateTimeController.text,
-                          itemtype: _itemnameController.text,
-                          )
-                      ).then((value){
-                        Fluttertoast.showToast(msg: "Item Added");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => UserHomePage()),
-                          );
-        
-                      });
-                    },
-                    child: Text("Add Item"),)
-                ],
-              ),
-]),
-    
+                  });
+                }
+              },
+              child: Text("Add Item"),
+            )
+          ],
+        ),
+      ]),
     );
-  
   }
 }
