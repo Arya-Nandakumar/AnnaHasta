@@ -29,18 +29,32 @@ class _donateitemState extends State<donateitem> {
   late DateTime selectedDateTime;
   final _formKey = GlobalKey<FormState>();
 
-  Future<Null> _selectDateAndTime(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateTime,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDateTime)
-      setState(() {
-        selectedDateTime = picked;
-        _dateTimeController.text =
-            "${DateFormat('dd/MM/yyyy HH:mm').format(selectedDateTime)}";
-      });
+  Future<void> _selectDateAndTime(BuildContext context) async {
+    final now = DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDateTime,
+      firstDate: now,
+      lastDate: DateTime(2101),
+      selectableDayPredicate: (date) =>
+          date.isAfter(now.subtract(Duration(days: 1))),
+    );
+    if (pickedDate == null) return;
+    final pickedDateTime =
+        DateTime(pickedDate.year, pickedDate.month, pickedDate.day);
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(selectedDateTime),
+    );
+    if (pickedTime == null) return;
+    final pickedDateTimeWithTime = pickedDateTime
+        .add(Duration(hours: pickedTime.hour, minutes: pickedTime.minute));
+    if (pickedDateTimeWithTime.isBefore(DateTime.now())) return;
+    setState(() {
+      selectedDateTime = pickedDateTimeWithTime;
+      _dateTimeController.text =
+          DateFormat('dd/MM/yyyy HH:mm').format(selectedDateTime);
+    });
   }
  
  @override
@@ -112,33 +126,32 @@ Widget build(BuildContext context) {
               ),
             ),
           Padding(
-            padding: EdgeInsets.all(16),
-            child: TextFormField(
-              controller: _dateTimeController,
-              decoration: const InputDecoration(
-                labelText: "Date and Time",
-                focusedBorder: OutlineInputBorder(),
-              ),
-            onTap: () async{
-              final selectedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now().subtract(Duration(days: 365)),
-                lastDate: DateTime.now().add(Duration(days: 365)),
-              );
-              if(selectedDate!=null){
-                final selectedTime = await showTimePicker(
-                  context: context,
-                  initialTime: TimeOfDay.now()
+              padding: EdgeInsets.all(16.0),
+              child: TextFormField(
+                controller: _dateTimeController,
+                decoration: const InputDecoration(
+                  labelText: "Date and Time",
+                  focusedBorder: OutlineInputBorder(),
+                ),
+                onTap: () async {
+                  final selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 7)),
                   );
-                  if(selectedTime!=null){
-                    _dateTimeController.text = "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                  if (selectedDate != null) {
+                    final selectedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (selectedTime != null) {
+                      _dateTimeController.text =
+                          "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                    }
                   }
-            
-              }
-
-            },
-            ),
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(16),
