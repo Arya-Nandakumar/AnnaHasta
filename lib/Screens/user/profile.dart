@@ -150,7 +150,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      FirestoreHelper.delete(singleUser)
+                                      FirestoreHelper.delete(singleUser.documentID)
+
                                           .then(
                                         (value) {
                                           Navigator.pop(context);

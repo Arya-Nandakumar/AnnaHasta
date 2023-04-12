@@ -27,32 +27,12 @@ class FirestoreHelper {
     print("some error occurred: $e");
   }
 }
-
-
-  static Future update(ContModel box) async {
+static Future delete(String? documentId) async {
     final contCollection = FirebaseFirestore.instance.collection("listings");
-    final bid = contCollection.doc(box.boxID).id;
-    final docRef = contCollection.doc(bid);
-
-    final newUser = ContModel(
-            boxID: box.boxID,
-            vname: box.vname,
-            caseID: box.caseID,
-            contents: box.contents,
-            isveg: box.isveg,
-            itemtype: box.itemtype,
-            userid: box.userid)
-        .toJson();
-
     try {
-      await docRef.set(newUser);
+      await contCollection.doc(documentId).delete();
     } catch (e) {
-      print("some error occured $e");
+      print("Error deleting entry: $e");
     }
-  }
-
-  static Future delete(ContModel user) async {
-    final contCollection = FirebaseFirestore.instance.collection("listings");
-    final docRef = contCollection.doc(user.boxID).delete();
   }
 }
