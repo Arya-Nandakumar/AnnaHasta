@@ -1,3 +1,4 @@
+import 'package:annahasta/Screens/ngo/confirmgif.dart';
 import 'package:flutter/material.dart';
 
 class ProceedPage extends StatefulWidget {
@@ -7,7 +8,12 @@ class ProceedPage extends StatefulWidget {
 
 class _ProceedPageState extends State<ProceedPage> {
   bool agree = false;
-  void _doSomething() {}
+  void _doSomething() {
+    Navigator.pushReplacement(
+
+      context, 
+      MaterialPageRoute(builder: (context) => Donategif()));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
