@@ -1,4 +1,5 @@
 import 'package:annahasta/Screens/ngo/details.dart';
+import 'package:annahasta/Screens/ngo/proceed.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/main.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
@@ -123,7 +124,21 @@ class _HomePageState extends State<HomePage> {
                                               child: Text('Close'),
                                             ),
                                             ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  PageRouteBuilder(
+                                                    pageBuilder: (context,
+                                                            animation1,
+                                                            animation2) =>
+                                                        ProceedPage(),
+                                                    transitionDuration:
+                                                        Duration.zero,
+                                                    reverseTransitionDuration:
+                                                        Duration.zero,
+                                                  ),
+                                                );
+                                              },
                                               child: Text('Proceed'),
                                             ),
                                           ],

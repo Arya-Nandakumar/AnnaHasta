@@ -25,92 +25,97 @@ class _SignUpPageUState extends State<SignUpPageU> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: emailEditingController,
-                decoration: InputDecoration(labelText: "Email"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a valid email";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: passwordEditingController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
-                validator: (value) {
-                  if (value!.length < 6) {
-                    return "Password must be at least 6 characters";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: firstNameEditingController,
-                decoration: InputDecoration(labelText: "First Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your First name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: secondNameEditingController,
-                decoration: InputDecoration(labelText: "Last Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your Last name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  secondNameEditingController.text = value!;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    signUp(emailEditingController.text,
-                        passwordEditingController.text);
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: emailEditingController,
+                  decoration: InputDecoration(labelText: "Email"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
                   },
-                  child: Text("Sign Up"),
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          SignInPage(),
-                      transitionDuration: Duration.zero,
-                      reverseTransitionDuration: Duration.zero,
-                    ),
-                  );
-                },
-                child: Text('Already have an account? Login'),
-              ),
-            ],
+                TextFormField(
+                  controller: passwordEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(labelText: "Password"),
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: firstNameEditingController,
+                  decoration: InputDecoration(labelText: "First Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your First name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: secondNameEditingController,
+                  decoration: InputDecoration(labelText: "Last Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your Last name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    secondNameEditingController.text = value!;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      signUp(emailEditingController.text,
+                          passwordEditingController.text);
+                    },
+                    child: Text("Sign Up"),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            SignInPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  },
+                  child: Text('Already have an account? Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
