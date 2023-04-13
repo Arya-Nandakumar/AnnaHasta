@@ -4,6 +4,10 @@
         android:label="AnnaHasta"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+<meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAu4-37ES5w9oa7mgazzYRe07oOST101zU"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
