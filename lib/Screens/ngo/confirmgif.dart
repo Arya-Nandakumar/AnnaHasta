@@ -1,7 +1,7 @@
 import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 class Donategif extends StatefulWidget {
   
@@ -51,25 +51,34 @@ class _MyAppState extends State<Donategif> with TickerProviderStateMixin {
            padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
-              Column(
-                children: [
-                  Lottie.asset(
-                    'assets/donategif.json',
-                    repeat: false,
-                    fit: BoxFit.fill,
-                    controller: _controller,
-                    onLoaded: (composition) {
-                      // Configure the AnimationController with the duration of the
-                      // Lottie file and start the animation.
-                      _controller
-                        ..duration = composition.duration
-                        ..forward();
-                    },
-                  ),
-                  Text(
-                    'Thank You!\nBecause of You there is one less empty stomach',
-                    style: TextStyle(fontSize: 16)),
-                ],
+              Center(
+                child: Column(
+                  children: [
+                    Lottie.asset(
+                      'assets/donategif.json',
+                      repeat: false,
+                      fit: BoxFit.fill,
+                      controller: _controller,
+                      onLoaded: (composition) {
+                        // Configure the AnimationController with the duration of the
+                        // Lottie file and start the animation.
+                        _controller
+                          ..duration = composition.duration
+                          ..forward();
+                      },
+                    ),
+                    Text(
+  'Thank You!\nBecause of You there is one less empty stomach :)',
+  textAlign: TextAlign.center,
+  style: TextStyle(
+    fontFamily: 'Sedgwick Ave Display',
+    fontSize: 40,
+    color: Colors.purple[100],
+    letterSpacing: .5,
+  ),
+),
+                  ],
+                ),
               ),
             ],
           ),

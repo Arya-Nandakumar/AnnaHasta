@@ -108,8 +108,12 @@ class _HomePageState extends State<HomePage> {
                                               Text(
                                                   "Quantity: ${singleUser.caseID}"),
                                               SizedBox(height: 5),
+                                              if(singleUser.itemtype=="food")
                                               Text(
                                                   "Vegetarian: ${singleUser.isveg == "FoodType.veg" ? "Yes" : "No"}"),
+                                              if(singleUser.itemtype!="food")
+                                              Text(
+                                                  "Item Name: ${singleUser.itemtype}"),
                                               SizedBox(height: 5),
                                               Text(
                                                   "Date & Time: ${singleUser.contents}"),
