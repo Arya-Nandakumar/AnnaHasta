@@ -23,11 +23,11 @@ FoodType _foodType = FoodType.veg;
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _menuController = TextEditingController();
   TextEditingController _itemnameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   late DateTime selectedDateTime;
   String? userID;
   String buttonText = 'Select Location'; // The initial text on the button
   String result = '';
+  List<GlobalKey<FormState>> formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
 
   @override
   void initState() {
@@ -123,7 +123,7 @@ FoodType _foodType = FoodType.veg;
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Form(
-                key: _formKey,
+                key: formKeys[0],
                 child: TextFormField(
                   controller: _quantityController,
                   keyboardType: TextInputType.number,
@@ -152,39 +152,59 @@ FoodType _foodType = FoodType.veg;
             ),
             Padding(
               padding: EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _dateTimeController,
-                decoration: const InputDecoration(
-                  labelText: "Date and Time",
-                  focusedBorder: OutlineInputBorder(),
-                ),
-                onTap: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 7)),
-                  );
-                  if (selectedDate != null) {
-                    final selectedTime = await showTimePicker(
+              child: Form(
+                key: formKeys[1],
+                child: TextFormField(
+                  controller: _dateTimeController,
+                  decoration: const InputDecoration(
+                    labelText: "Date and Time",
+                    focusedBorder: OutlineInputBorder(),
+                  ),
+                  onTap: () async {
+                    final selectedDate = await showDatePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(Duration(days: 7)),
                     );
-                    if (selectedTime != null) {
-                      _dateTimeController.text =
-                          "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                    if (selectedDate != null) {
+                      final selectedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (selectedTime != null) {
+                        _dateTimeController.text =
+                            "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                      }
+                    }
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a valid date and time';
                     }
                   }
-                },
+                ),
               ),
             ),
             Padding(
               padding: EdgeInsets.all(16.0),
-              child: TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: "Phone Number",
-                  focusedBorder: OutlineInputBorder(),
+              child: Form(
+                key: formKeys[2],
+                child: TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: "Phone Number",
+                    focusedBorder: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter a phone number';
+        }
+        if (value.length != 10) {
+          return 'Phone number should be exactly 10 digits';
+        }
+        return null;
+      },
                 ),
               ),
             ),
@@ -223,7 +243,7 @@ FoodType _foodType = FoodType.veg;
                     minimumSize: Size(150, 50),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if ((formKeys[0].currentState!.validate())&&(formKeys[1].currentState!.validate())&&(formKeys[2].currentState!.validate())) {
                       FirestoreHelper.create(
                         ContModel(
                             boxID: result,
@@ -278,17 +298,25 @@ FoodType _foodType = FoodType.veg;
             ),
         Padding(
             padding: EdgeInsets.all(16),
-            child: TextFormField(
-              controller: _itemnameController,
-              decoration: const InputDecoration(
-                labelText: "Item name",
-                focusedBorder: OutlineInputBorder(),
+            child: Form(
+              key: formKeys[3],
+              child: TextFormField(
+                controller: _itemnameController,
+                decoration: const InputDecoration(
+                  labelText: "Item name",
+                  focusedBorder: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the item name';
+                    }
+                  }
               ),
             )),
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Form(
-            key: _formKey,
+            key: formKeys[0],
             child: TextFormField(
               controller: _quantityController,
               keyboardType: TextInputType.number,
@@ -314,39 +342,59 @@ FoodType _foodType = FoodType.veg;
         ),
         Padding(
           padding: EdgeInsets.all(16.0),
-          child: TextFormField(
-            controller: _dateTimeController,
-            decoration: const InputDecoration(
-              labelText: "Date and Time",
-              focusedBorder: OutlineInputBorder(),
-            ),
-            onTap: () async {
-              final selectedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 7)),
-              );
-              if (selectedDate != null) {
-                final selectedTime = await showTimePicker(
+          child: Form(
+            key: formKeys[1],
+            child: TextFormField(
+              controller: _dateTimeController,
+              decoration: const InputDecoration(
+                labelText: "Date and Time",
+                focusedBorder: OutlineInputBorder(),
+              ),
+              onTap: () async {
+                final selectedDate = await showDatePicker(
                   context: context,
-                  initialTime: TimeOfDay.now(),
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(Duration(days: 7)),
                 );
-                if (selectedTime != null) {
-                  _dateTimeController.text =
-                      "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                if (selectedDate != null) {
+                  final selectedTime = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (selectedTime != null) {
+                    _dateTimeController.text =
+                        "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
+                  }
                 }
-              }
-            },
+              },
+              validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a valid date and time';
+                    }
+                  }
+            ),
           ),
         ),
         Padding(
           padding: EdgeInsets.all(16),
-          child: TextFormField(
-            controller: _phoneController,
-            decoration: const InputDecoration(
-              labelText: "Phone Number",
-              focusedBorder: OutlineInputBorder(),
+          child: Form(
+            key: formKeys[2],
+            child: TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(
+                labelText: "Phone Number",
+                focusedBorder: OutlineInputBorder(),
+              ),
+              validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter a phone number';
+        }
+        if (value.length != 10) {
+          return 'Phone number should be exactly 10 digits';
+        }
+        return null;
+      },
             ),
           ),
         ),
@@ -357,7 +405,7 @@ FoodType _foodType = FoodType.veg;
             ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: Size(150, 50)),
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+                if ((formKeys[0].currentState!.validate())&&(formKeys[1].currentState!.validate())&&(formKeys[2].currentState!.validate())&&(formKeys[3].currentState!.validate())) {
                   FirestoreHelper.create(ContModel(
                     boxID: result,
                     caseID: _quantityController.text,
