@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -93,7 +92,10 @@ class _SearchPageState extends State<SearchPage> {
             onChanged: (value) {
               _onSearchChanged();
             },
-          )),
+          ),
+                    automaticallyImplyLeading: false,
+          ),
+          
       bottomNavigationBar: UserBottomNav(selectedIndex: 2),
       body: ListView.builder(
           itemCount: _resultList.length,
