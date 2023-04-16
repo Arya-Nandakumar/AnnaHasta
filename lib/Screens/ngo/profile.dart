@@ -12,31 +12,23 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? email;
+  String? firstName;
+  String? secondName;
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
   @override
   void initState() {
     super.initState();
-    _fetchEmail();
-    if (loggedInUser.firstName == null && loggedInUser.secondName == null) {
-      loggedInUser.firstName = '';
-      loggedInUser.secondName = '';
-    }
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
+    _fetchDetails();
   }
 
-  void _fetchEmail() async {
+  void _fetchDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       email = (prefs.getString('email') ?? '');
+      firstName = (prefs.getString('firstname') ?? '');
+      secondName = (prefs.getString('secondname') ?? '');
     });
   }
 
@@ -55,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Hi, ${loggedInUser.firstName} ${loggedInUser.secondName}",
+                "Hi, ${firstName} ${secondName}",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(

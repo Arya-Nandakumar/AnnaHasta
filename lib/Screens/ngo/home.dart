@@ -171,7 +171,12 @@ class _HomePageState extends State<HomePage> {
                                       SizedBox(
                                           width:
                                               10), // Add some space between the icon and text
-                                      Text("${singleUser.boxID}"),
+                                      Flexible(
+                        child: Text(
+                          "${singleUser.boxID}",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                                     ],
                                   ),
                                   subtitle: Text(

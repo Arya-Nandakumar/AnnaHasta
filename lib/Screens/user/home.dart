@@ -62,70 +62,77 @@ class _UserHomePageState extends State<UserHomePage> {
         child: Column(
           children: [
             StreamBuilder<List<ContModel>>(
-                stream: FirestoreHelper.read(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text("some error occured"),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    final userData = snapshot.data;
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: userData!.length,
-                          itemBuilder: (context, index) {
-                            final singleUser = userData[index];
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                child: ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 10.0),
-                                  title: Row(
-                                    children: [
-                                      if (singleUser.isveg == "FoodType.veg")
-                                        Image.asset(
-                                          'assets/veg.png',
-                                          height: 15,
-                                        ),
-                                      if (singleUser.isveg == "FoodType.nonVeg")
-                                        Image.asset(
-                                          'assets/nonveg.png',
-                                          height: 15,
-                                        ),
-                                      if (singleUser.isveg == "thing")
-                                        Image.asset(
-                                          'assets/thing.png',
-                                          height: 20,
-                                        ),
-                                      // Add leading idd leading icon
-                                      SizedBox(
-                                          width:
-                                              10), // Add some space between the icon and text
-                                      Text("${singleUser.boxID}"),
-                                    ],
-                                  ),
-                                  subtitle: Text(
-                                      "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}"),
-                                ),
-                              ),
-                            );
-                          }),
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                })
+  stream: FirestoreHelper.read(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    if (snapshot.hasError) {
+      return Center(
+        child: Text("Some error occurred"),
+      );
+    }
+    if (snapshot.hasData) {
+      final userData = snapshot.data;
+      return Expanded(
+        child: ListView.builder(
+          itemCount: userData!.length,
+          itemBuilder: (context, index) {
+            final singleUser = userData[index];
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 5),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 10.0),
+                  title: Row(
+                    children: [
+                      if (singleUser.isveg == "FoodType.veg")
+                        Image.asset(
+                          'assets/veg.png',
+                          height: 15,
+                        ),
+                      if (singleUser.isveg == "FoodType.nonVeg")
+                        Image.asset(
+                          'assets/nonveg.png',
+                          height: 15,
+                        ),
+                      if (singleUser.isveg == "thing")
+                        Image.asset(
+                          'assets/thing.png',
+                          height: 20,
+                        ),
+                      // Add leading idd leading icon
+                      SizedBox(
+                        width: 10,
+                      ), // Add some space between the icon and text
+                      Flexible(
+                        child: Text(
+                          "${singleUser.boxID}",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Text(
+                      "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}"),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  })
+
           ],
         ),
       ),

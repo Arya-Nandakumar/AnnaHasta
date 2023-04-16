@@ -21,27 +21,6 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
-    _checkIfLoggedIn();
-  }
-
-  // Check if the user is already logged in
-  void _checkIfLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString('email');
-    String? password = prefs.getString('password');
-    if (email != null && password != null) {
-      setState(() {
-        _isLoading = true;
-      });
-      FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((user) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => VerifyCheckPage()));
-      }).catchError((error) {
-        print(error);
-      });
-    }
   }
 
   // Perform sign in or sign up
@@ -120,16 +99,19 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 35.0,
                 ),
                 _isLoading
                     ? CircularProgressIndicator()
                     : ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+          minimumSize: Size(150, 50),
+        ),
                         child: Text('Sign In'),
                         onPressed: _submit,
                       ),
                 SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
                 TextButton(
                   onPressed: () {

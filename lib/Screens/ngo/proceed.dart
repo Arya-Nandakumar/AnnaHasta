@@ -89,7 +89,11 @@ class _ProceedPageState extends State<ProceedPage> {
                 ),
               ],
             ),
+            SizedBox(height: 15),
             ElevatedButton(
+               style: ElevatedButton.styleFrom(
+          minimumSize: Size(150, 50),
+        ),
               child: Text('Confirm'),
               onPressed: agree ? _doSomething : null,
             ),

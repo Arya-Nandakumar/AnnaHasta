@@ -1,17 +1,17 @@
 import 'package:annahasta/Screens/common/login.dart';
-import 'package:annahasta/Screens/common/verify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:annahasta/models/user_model.dart';
+import 'package:annahasta/Screens/common/verify.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpPageU extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignUpPageUState createState() => _SignUpPageUState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageUState extends State<SignUpPageU> {
   final _auth = FirebaseAuth.instance;
 
   String? errorMessage;
@@ -25,102 +25,103 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: emailEditingController,
-                decoration: InputDecoration(labelText: "Email"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a valid email";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: passwordEditingController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
-                validator: (value) {
-                  if (value!.length < 6) {
-                    return "Password must be at least 6 characters";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: firstNameEditingController,
-                decoration: InputDecoration(labelText: "First Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your First name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: secondNameEditingController,
-                decoration: InputDecoration(labelText: "Last Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your Last name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  secondNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: fssaiController,
-                decoration: InputDecoration(labelText: "FSSAI Number"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your FSSAI number";
-                  }
-                  return null;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    signUp(emailEditingController.text,
-                        passwordEditingController.text);
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: emailEditingController,
+                  decoration: InputDecoration(labelText: "Email"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
                   },
-                  child: Text("Sign Up"),
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          SignInPage(),
-                      transitionDuration: Duration.zero,
-                      reverseTransitionDuration: Duration.zero,
-                    ),
-                  );
-                },
-                child: Text('Already have an account? Login'),
-              ),
-            ],
+                TextFormField(
+                  controller: passwordEditingController,
+                  obscureText: true,
+                  decoration: InputDecoration(labelText: "Password"),
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: firstNameEditingController,
+                  decoration: InputDecoration(labelText: "First Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your First name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: secondNameEditingController,
+                  decoration: InputDecoration(labelText: "Last Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your Last name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    secondNameEditingController.text = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+          minimumSize: Size(150, 50),
+        ),
+                    onPressed: () {
+                      signUp(emailEditingController.text,
+                          passwordEditingController.text);
+                    },
+                    child: Text("Sign Up"),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            SignInPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  },
+                  child: Text('Already have an account? Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -183,7 +184,6 @@ class _SignUpPageState extends State<SignUpPage> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
-    userModel.fssai = fssaiController.text;
     userModel.isVerified = false;
 
     await firebaseFirestore

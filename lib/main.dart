@@ -1,4 +1,5 @@
 import 'package:annahasta/Screens/common/login.dart';
+import 'package:annahasta/Screens/common/splashcheck.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/Functions/colorhex.dart';
@@ -15,23 +16,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'AnnaHasta',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
+        colorSchemeSeed: buildMaterialColor(Color(0xFF5823f9)),
         appBarTheme: AppBarTheme(
-          color: buildMaterialColor(Color(0xFF7A01FF)),
+          color: buildMaterialColor(Color(0xFF5823f9)),
           foregroundColor: Colors.white,
         ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        colorSchemeSeed: buildMaterialColor(Color(0xFF7A01FF)),
+        colorSchemeSeed: buildMaterialColor(Color(0xFF5823f9)),
         appBarTheme: AppBarTheme(),
       ),
       themeMode: ThemeMode.system,
-      home: SignInPage(),
+      home: SplashPage(),
     );
   }
 }

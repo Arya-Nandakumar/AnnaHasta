@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/ngo/signup.dart';
 import 'package:annahasta/Screens/user/signup.dart';
+import 'package:annahasta/Screens/ngo/signup.dart';
 import 'package:annahasta/Screens/common/login.dart';
 
 class DSignUpPage extends StatelessWidget {

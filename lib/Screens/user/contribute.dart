@@ -87,11 +87,26 @@ FoodType _foodType = FoodType.veg;
         title: Text('Contribute'),
         automaticallyImplyLeading: false,
             bottom: const TabBar(
-              tabs: [
-                Tab(text: "Food",),
-                Tab(text: "Things",),
-              ],
-            ),
+  tabs: [
+    Tab(
+      child: Text(
+        "Food",
+        style: TextStyle(
+          color: Colors.white, // Set the text color to white
+        ),
+      ),
+    ),
+    Tab(
+      child: Text(
+        "Things",
+        style: TextStyle(
+          color: Colors.white, // Set the text color to white
+        ),
+      ),
+    ),
+  ],
+),
+
           ),
                   bottomNavigationBar: UserBottomNav(selectedIndex: 1),
           body: TabBarView(

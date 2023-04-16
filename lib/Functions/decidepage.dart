@@ -33,6 +33,10 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('userid',user!.uid );
+          prefs.setString('firstname', loggedInUser.firstName ?? '');
+          prefs.setString('secondname', loggedInUser.secondName ?? '');
+
+
       if (loggedInUser.fssai != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => UserHomePage()));
