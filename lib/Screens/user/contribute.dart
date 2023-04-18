@@ -27,6 +27,9 @@ FoodType _foodType = FoodType.veg;
   String? userID;
   String buttonText = 'Select Location'; // The initial text on the button
   String result = '';
+  late Map locationMap;
+  late double lat;
+  late double lng;
   List<GlobalKey<FormState>> formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
 
   @override
@@ -121,13 +124,14 @@ FoodType _foodType = FoodType.veg;
       width: double.infinity,
       child: OutlinedButton(
       onPressed: () async {
-            result = await Navigator.push(
+            locationMap = await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddressPage()),
             );
-
-            // Handle the returned result
-            if (result != null) {
+            if (locationMap != null) {
+              result = locationMap['location'];
+              lat = locationMap['lat'];
+              lng = locationMap['lng'];
               changeText();
             }
           },
@@ -267,7 +271,9 @@ FoodType _foodType = FoodType.veg;
                             vname: _phoneController.text,
                             isveg: _foodType.toString(),
                             userid: userID,
-                             itemtype: 'food'),
+                             itemtype: 'food',
+                             lat: lat,
+                             lng: lng),
 
                       ).then((value) {
                         Fluttertoast.showToast(msg: 'Posted!');
@@ -297,13 +303,14 @@ FoodType _foodType = FoodType.veg;
       width: double.infinity,
       child: OutlinedButton(
       onPressed: () async {
-            result = await Navigator.push(
+            locationMap = await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddressPage()),
             );
-
-            // Handle the returned result
-            if (result != null) {
+            if (locationMap != null) {
+              result = locationMap['location'];
+              lat = locationMap['lat'];
+              lng = locationMap['lng'];
               changeText();
             }
           },
@@ -429,6 +436,8 @@ FoodType _foodType = FoodType.veg;
                     itemtype: _itemnameController.text,
                     isveg: "thing",
                     userid: userID,
+                     lat: lat,
+                     lng: lng
                   )).then((value) {
                     Fluttertoast.showToast(msg: "Item Added!");
                     Navigator.push(

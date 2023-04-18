@@ -9,8 +9,10 @@ class ContModel {
   final String? itemtype;
   final String? userid;
   String? documentID;
+  double? lat;
+  double? lng;
 
-  ContModel({this.boxID, this.caseID, this.vname, this.contents, this.isveg, this.itemtype, this.userid, this.documentID,});
+  ContModel({this.boxID, this.caseID, this.vname, this.contents, this.isveg, this.itemtype, this.userid, this.documentID, this.lat, this.lng});
 
   factory ContModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -24,6 +26,8 @@ class ContModel {
         itemtype: snapshot['itemtype'],
         userid: snapshot['userid'],
         documentID: snap.id,
+        lat: snapshot['lat'],
+        lng: snapshot['lng'],
         );
   }
 
@@ -35,5 +39,7 @@ class ContModel {
         "isveg": isveg,
         "itemtype": itemtype,
         "userid": userid,
+        "lat": lat,
+        "lng": lng,
       };
 }

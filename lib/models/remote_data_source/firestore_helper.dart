@@ -19,6 +19,8 @@ class FirestoreHelper {
     isveg: box.isveg,
     itemtype: box.itemtype,
     userid: box.userid,
+    lat: box.lat,
+    lng: box.lng,
   ).toJson();
 
   try {

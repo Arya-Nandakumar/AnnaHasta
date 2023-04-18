@@ -39,8 +39,13 @@ class _AddressPageState extends State<AddressPage> {
       if (result.isOkay) {
         final lat = result.result.geometry!.location.lat;
         final lng = result.result.geometry!.location.lng;
+  Map<String, dynamic> locationMap = {
+    "location": result.result.formattedAddress,
+    "lat": lat,
+    "lng": lng,
+};
 
-       Navigator.pop(context, result.result.formattedAddress,
+       Navigator.pop(context, locationMap,
       );
       }
     }
