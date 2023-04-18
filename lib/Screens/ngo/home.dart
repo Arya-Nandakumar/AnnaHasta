@@ -123,25 +123,22 @@ class _HomePageState extends State<HomePage> {
                                           actions: [
                                             TextButton(
                                               onPressed: () {
-                                                Navigator.pop(context);
+                                                Navigator.pop(context,singleUser.documentID);
                                               },
                                               child: Text('Close'),
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
                                                 Navigator.push(
-                                                  context,
-                                                  PageRouteBuilder(
-                                                    pageBuilder: (context,
-                                                            animation1,
-                                                            animation2) =>
-                                                        ProceedPage(),
-                                                    transitionDuration:
-                                                        Duration.zero,
-                                                    reverseTransitionDuration:
-                                                        Duration.zero,
-                                                  ),
-                                                );
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation1, animation2) => ProceedPage(documentId: singleUser.documentID!),
+    transitionDuration: Duration.zero,
+    reverseTransitionDuration: Duration.zero,
+    settings: RouteSettings(arguments: singleUser.documentID),
+  ),
+);
+
                                               },
                                               child: Text('Proceed'),
                                             ),

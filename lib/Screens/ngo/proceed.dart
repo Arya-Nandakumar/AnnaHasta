@@ -1,21 +1,68 @@
 import 'package:annahasta/Screens/ngo/confirmgif.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/cont_model.dart';
+import '../../models/remote_data_source/distributer_helper.dart';
+import '../../models/remote_data_source/firestore_helper.dart';
 
 class ProceedPage extends StatefulWidget {
+  ProceedPage({required this.documentId});
+
+  final String documentId;
   @override
   _ProceedPageState createState() => _ProceedPageState();
 }
 
 class _ProceedPageState extends State<ProceedPage> {
-  late GoogleMapController mapController;
-    final LatLng markerCoordinates = LatLng(9.510009599999998, 76.5513594);
-      bool agree = false;
-  void _doSomething() {
-    Navigator.pushReplacement(
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserID();
+  }
 
-      context, 
-      MaterialPageRoute(builder: (context) => Donategif()));
+  void _fetchUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userID = (prefs.getString('userid') ?? '');
+    });
+  }
+
+  late String documentId;
+  String? userID;
+  late GoogleMapController mapController;
+  bool agree = false;
+  late String location;
+  late String quantity;
+  late String date;
+  late String phone;
+  late String type;
+  late double lat;
+  late double lng;
+  late String itemtype;
+
+  void _doSomething() {
+    DistributedHelper.create(
+      ContModel(
+        boxID: location,
+        caseID: quantity,
+        vname: phone,
+        contents: date,
+        itemtype: itemtype,
+        isveg: type,
+        lat: lat,
+        lng: lng,
+        userid: userID,
+      ),
+    ).then((value) {
+      FirestoreHelper.delete(documentId).then(
+        (value) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Donategif()));
+        },
+      );
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -24,84 +71,107 @@ class _ProceedPageState extends State<ProceedPage> {
 
   @override
   Widget build(BuildContext context) {
+    documentId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Proceed"),
-          centerTitle: true,
-          elevation: 4,
+      appBar: AppBar(
+        title: const Text("Proceed"),
+        centerTitle: true,
+        elevation: 4,
+      ),
+      body: Column(children: [
+        StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('listings')
+              .doc(documentId)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData) {
+              return Center(child: Text('No data found'));
+            } else {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              location = data['boxID'] ?? '';
+              quantity = data['caseID'] ?? '';
+              date = data['contents'] ?? '';
+              phone = data['vname'] ?? '';
+              type = data['isveg'] ?? '';
+              lat = data['lat'] ?? '';
+              lng = data['lng'] ?? '';
+              itemtype = data['itemtype'] ?? '';
+              // Extract other fields as needed
+
+              // Display the fetched data in the widget
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: double.infinity,
+                            height: 300,
+                            child: GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(lat, lng),
+                                zoom: 15.0,
+                              ),
+                              markers: Set<Marker>.from([
+                                Marker(
+                                  markerId: MarkerId('markerId'),
+                                  position: LatLng(lat, lng),
+                                ),
+                              ]),
+                              zoomGesturesEnabled: false,
+                              scrollGesturesEnabled: false,
+                              tiltGesturesEnabled: false,
+                              rotateGesturesEnabled: false,
+                              myLocationButtonEnabled: false,
+                              onMapCreated: (GoogleMapController controller) {},
+                            ),
+                          ),
+                        ]),
+                  ),
+                  Text("Location: " + location),
+                  Text("Quantity: " + quantity),
+                  Text("Date: " + date),
+                  Text("Phone Number: " + phone),
+                ],
+              );
+            }
+          },
         ),
-        body: 
-        Padding(
-      padding: EdgeInsets.all(20),
-      child:Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-      width: double.infinity,
-      height: 300,
-      child: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: markerCoordinates,
-          zoom: 15.0,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: agree,
+              onChanged: (value) {
+                setState(() {
+                  agree = value ?? false;
+                });
+              },
+            ),
+            Text(
+              'I am ready to distribute',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
-        markers: Set<Marker>.from([
-          Marker(
-            markerId: MarkerId('markerId'),
-            position: markerCoordinates,
+        SizedBox(height: 15),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(150, 50),
           ),
-        ]),
-        zoomGesturesEnabled: false,
-        scrollGesturesEnabled: false,
-        tiltGesturesEnabled: false,
-        rotateGesturesEnabled: false,
-        myLocationButtonEnabled: false,
-        onMapCreated: (GoogleMapController controller) {
-        },
-      ),
-    ),
-    SizedBox(height: 20,),
-    Center(
-          child: Column(children: [
-            Text("Location:"),
-            SizedBox(height: 5),
-            Text("Quantity: "),
-            SizedBox(height: 5),
-            Text("Vegetarian: "),
-            SizedBox(height: 5),
-            Text("Date & Time: "),
-            SizedBox(height: 5),
-            Text("Phone number:"),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Checkbox(
-                  value: agree,
-                  onChanged: (value) {
-                    setState(() {
-                      agree = value ?? false;
-                    });
-                  },
-                ),
-                Text(
-                  'I am ready to distribute',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-            SizedBox(height: 15),
-            ElevatedButton(
-               style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 50),
+          child: Text('Confirm'),
+          onPressed: agree ? _doSomething : null,
         ),
-              child: Text('Confirm'),
-              onPressed: agree ? _doSomething : null,
-            ),
-          ]),
-        )
-      ]
-      ),
-        ),
-      );
+      ]),
+    );
   }
 }
