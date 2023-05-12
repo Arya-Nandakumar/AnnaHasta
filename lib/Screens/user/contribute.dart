@@ -117,6 +117,7 @@ class _ContributePageState extends State<ContributePage> {
         ),
         bottomNavigationBar: UserBottomNav(selectedIndex: 1),
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             Container(
                 child: Column(
