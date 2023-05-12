@@ -93,18 +93,21 @@ class _SignUpPageState extends State<SignUpPage> {
                   if (value!.isEmpty) {
                     return "Please enter your FSSAI number";
                   }
+                  if (value!.length != 14) {
+                    return "Please enter a valid FSSAI number";
+                  }
                   return null;
                 },
               ),
               SizedBox(
-                  height: 10.0,
-                ),
+                height: 10.0,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 50),
-        ),
+                    minimumSize: Size(150, 50),
+                  ),
                   onPressed: () {
                     signUp(emailEditingController.text,
                         passwordEditingController.text);
