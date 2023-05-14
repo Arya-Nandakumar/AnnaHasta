@@ -40,14 +40,16 @@ class _AddressPageState extends State<AddressPage> {
       if (result.isOkay) {
         final lat = result.result.geometry!.location.lat;
         final lng = result.result.geometry!.location.lng;
-  Map<String, dynamic> locationMap = {
-    "location": result.result.formattedAddress,
-    "lat": lat,
-    "lng": lng,
-};
+        Map<String, dynamic> locationMap = {
+          "location": result.result.formattedAddress,
+          "lat": lat,
+          "lng": lng,
+        };
 
-       Navigator.pop(context, locationMap,
-      );
+        Navigator.pop(
+          context,
+          locationMap,
+        );
       }
     }
   }
@@ -64,6 +66,7 @@ class _AddressPageState extends State<AddressPage> {
       appBar: AppBar(
         elevation: 4,
         title: TextField(
+          autofocus: true,
           controller: _locationController,
           onChanged: _onTextChanged,
           decoration: const InputDecoration(

@@ -2,7 +2,8 @@ import 'package:annahasta/Screens/user/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
-import 'package:annahasta/Functions/userbottomnav.dart';
+import 'package:annahasta/Functions/newnavbar.dart';
+import 'package:annahasta/Functions/colorhex.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -20,8 +21,16 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color color = isDarkMode ? Colors.white : Colors.black;
     return Scaffold(
-      bottomNavigationBar: const UserBottomNav(selectedIndex: 0),
+      extendBody: true,
+      bottomNavigationBar: SpotifyBottomNavigationBar(
+        initialIndex: 0,
+        onItemTapped: (index) {
+          // Do something when an item in the navigation bar is tapped
+        },
+      ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -40,7 +49,12 @@ class _UserHomePageState extends State<UserHomePage> {
               titlePadding: EdgeInsets.fromLTRB(20, 0, 0, 8),
               title: Row(
                 children: [
-                  Text('AnnaHasta'),
+                  Text(
+                    'AnnaHasta',
+                    style: TextStyle(
+                      color: color,
+                    ),
+                  ),
                   Spacer(),
                   IconButton(
                     icon: const Icon(
@@ -98,7 +112,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                   decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.0)),
-                                    color: Color.fromARGB(144, 62, 62, 62),
+                                    color: Colors.white12,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
@@ -116,11 +130,9 @@ class _UserHomePageState extends State<UserHomePage> {
                                     })(),
                                   ),
                                 ),
-                                title: Flexible(
-                                  child: Text(
-                                    "${singleUser.boxID}",
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                title: Text(
+                                  "${singleUser.boxID}",
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
                                   "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}",

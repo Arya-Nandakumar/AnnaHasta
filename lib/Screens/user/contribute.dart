@@ -1,12 +1,14 @@
-import 'package:annahasta/Functions/userbottomnav.dart';
 import 'package:annahasta/Screens/user/address.dart';
 import 'package:annahasta/Screens/user/home.dart';
-import 'package:annahasta/models/cont_model.dart';
-import 'package:annahasta/models/remote_data_source/firestore_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Functions/colorhex.dart';
+import '../../Functions/newnavbar.dart';
+import '../../models/cont_model.dart';
+import '../../models/remote_data_source/firestore_helper.dart';
 
 class ContributePage extends StatefulWidget {
   const ContributePage({super.key});
@@ -16,6 +18,8 @@ class ContributePage extends StatefulWidget {
 }
 
 enum FoodType { veg, nonVeg }
+
+final List<String> _tabs = ['Food', 'Things'];
 
 class _ContributePageState extends State<ContributePage> {
   FoodType _foodType = FoodType.veg;
@@ -88,36 +92,62 @@ class _ContributePageState extends State<ContributePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color color = isDarkMode ? Colors.white : Colors.black;
     return DefaultTabController(
-      length: 2,
+      length: 2, // Number of tabs
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 4,
-          centerTitle: true,
-          title: const Text('Contribute'),
-          automaticallyImplyLeading: false,
-          bottom: const TabBar(
-            tabs: [
-              Tab(
-                child: Text(
-                  "Food",
-                  style: TextStyle(
-                    color: Colors.white, // Set the text color to white
+        bottomNavigationBar: SpotifyBottomNavigationBar(
+          initialIndex: 1,
+          onItemTapped: (index) {
+            // Do something when an item in the navigation bar is tapped
+          },
+        ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(120.0), // here the desired height
+          child: SafeArea(
+            top: true, // Add top padding
+            minimum: EdgeInsets.only(top: 60), // Set the top padding value
+            child: AppBar(
+              title: Text(
+                "Contribute",
+                style: TextStyle(fontSize: 30),
+              ),
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(40),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10), // Add left padding
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TabBar(
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicator: new BubbleTabIndicator(
+                          indicatorHeight: 25.0,
+                          indicatorColor:
+                              buildMaterialColor(const Color(0xFF5823f9)),
+                          tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                        ),
+                        isScrollable: true,
+                        tabs: _tabs
+                            .map((label) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                child: Tab(
+                                  child: Text(
+                                    "$label",
+                                    style: TextStyle(
+                                      color: color,
+                                    ),
+                                  ),
+                                )))
+                            .toList(),
+                        dividerColor: Colors.transparent),
                   ),
                 ),
               ),
-              Tab(
-                child: Text(
-                  "Things",
-                  style: TextStyle(
-                    color: Colors.white, // Set the text color to white
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-        bottomNavigationBar: const UserBottomNav(selectedIndex: 1),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
@@ -189,7 +219,8 @@ class _ContributePageState extends State<ContributePage> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(const Duration(days: 7)),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 7)),
                           );
                           if (selectedDate != null) {
                             final selectedTime = await showTimePicker(
@@ -379,7 +410,8 @@ class _ContributePageState extends State<ContributePage> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(const Duration(days: 7)),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 7)),
                           );
                           if (selectedDate != null) {
                             final selectedTime = await showTimePicker(
@@ -427,8 +459,8 @@ class _ContributePageState extends State<ContributePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(minimumSize: const Size(150, 50)),
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(150, 50)),
                       onPressed: () {
                         if ((formKeys[0].currentState!.validate()) &&
                             (formKeys[1].currentState!.validate()) &&
