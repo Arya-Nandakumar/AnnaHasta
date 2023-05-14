@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:annahasta/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:annahasta/Screens/common/remindv.dart';
 import 'package:annahasta/Screens/user/home.dart';
 
 class VerifyCheckPage extends StatefulWidget {
+  const VerifyCheckPage({super.key});
+
   @override
   _VerifyCheckPageState createState() => _VerifyCheckPageState();
 }
@@ -39,14 +40,14 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
 
       if (loggedInUser.fssai != null) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => UserHomePage()));
+            MaterialPageRoute(builder: (context) => const UserHomePage()));
       } else {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()));
+            MaterialPageRoute(builder: (context) => const HomePage()));
       }
     } else {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => RemindVerifyPage()));
+          MaterialPageRoute(builder: (context) => const RemindVerifyPage()));
     }
   }
 
@@ -64,6 +65,6 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

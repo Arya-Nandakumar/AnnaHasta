@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class ContributePage extends StatefulWidget {
+  const ContributePage({super.key});
+
   @override
   _ContributePageState createState() => _ContributePageState();
 }
@@ -17,12 +19,12 @@ enum FoodType { veg, nonVeg }
 
 class _ContributePageState extends State<ContributePage> {
   FoodType _foodType = FoodType.veg;
-  TextEditingController _locationController = TextEditingController();
-  TextEditingController _quantityController = TextEditingController();
-  TextEditingController _dateTimeController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _menuController = TextEditingController();
-  TextEditingController _itemnameController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _dateTimeController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _menuController = TextEditingController();
+  final TextEditingController _itemnameController = TextEditingController();
   late DateTime selectedDateTime;
   String? userID;
   String buttonText = 'Select Location'; // The initial text on the button
@@ -58,7 +60,7 @@ class _ContributePageState extends State<ContributePage> {
       firstDate: now,
       lastDate: DateTime(2101),
       selectableDayPredicate: (date) =>
-          date.isAfter(now.subtract(Duration(days: 1))),
+          date.isAfter(now.subtract(const Duration(days: 1))),
     );
     if (pickedDate == null) return;
     final pickedDateTime =
@@ -92,7 +94,7 @@ class _ContributePageState extends State<ContributePage> {
         appBar: AppBar(
           elevation: 4,
           centerTitle: true,
-          title: Text('Contribute'),
+          title: const Text('Contribute'),
           automaticallyImplyLeading: false,
           bottom: const TabBar(
             tabs: [
@@ -115,37 +117,35 @@ class _ContributePageState extends State<ContributePage> {
             ],
           ),
         ),
-        bottomNavigationBar: UserBottomNav(selectedIndex: 1),
+        bottomNavigationBar: const UserBottomNav(selectedIndex: 1),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
             Container(
                 child: Column(
               children: <Widget>[
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
                 Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () async {
                           locationMap = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddressPage()),
+                                builder: (context) => const AddressPage()),
                           );
-                          if (locationMap != null) {
-                            result = locationMap['location'];
-                            lat = locationMap['lat'];
-                            lng = locationMap['lng'];
-                            changeText();
-                          }
+                          result = locationMap['location'];
+                          lat = locationMap['lat'];
+                          lng = locationMap['lng'];
+                          changeText();
                         },
                         child: Text(buttonText),
                       ),
                     )),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: formKeys[0],
                     child: TextFormField(
@@ -175,7 +175,7 @@ class _ContributePageState extends State<ContributePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: formKeys[1],
                     child: TextFormField(
@@ -189,7 +189,7 @@ class _ContributePageState extends State<ContributePage> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 7)),
+                            lastDate: DateTime.now().add(const Duration(days: 7)),
                           );
                           if (selectedDate != null) {
                             final selectedTime = await showTimePicker(
@@ -206,11 +206,12 @@ class _ContributePageState extends State<ContributePage> {
                           if (value!.isEmpty) {
                             return 'Please enter a valid date and time';
                           }
+                          return null;
                         }),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: formKeys[2],
                     child: TextFormField(
@@ -231,7 +232,7 @@ class _ContributePageState extends State<ContributePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -244,7 +245,7 @@ class _ContributePageState extends State<ContributePage> {
                         });
                       },
                     ),
-                    Text('Veg'),
+                    const Text('Veg'),
                     Radio(
                       value: FoodType.nonVeg,
                       groupValue: _foodType,
@@ -254,16 +255,16 @@ class _ContributePageState extends State<ContributePage> {
                         });
                       },
                     ),
-                    Text('Non Veg'),
+                    const Text('Non Veg'),
                   ],
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(150, 50),
+                        minimumSize: const Size(150, 50),
                       ),
                       onPressed: () {
                         if ((formKeys[0].currentState!.validate()) &&
@@ -285,7 +286,7 @@ class _ContributePageState extends State<ContributePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserHomePage()),
+                                  builder: (context) => const UserHomePage()),
                             );
                           });
                         }
@@ -299,30 +300,28 @@ class _ContributePageState extends State<ContributePage> {
             //SECOND TAB CODE BEGINS
             Container(
               child: Column(children: <Widget>[
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
                 Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () async {
                           locationMap = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddressPage()),
+                                builder: (context) => const AddressPage()),
                           );
-                          if (locationMap != null) {
-                            result = locationMap['location'];
-                            lat = locationMap['lat'];
-                            lng = locationMap['lng'];
-                            changeText();
-                          }
+                          result = locationMap['location'];
+                          lat = locationMap['lat'];
+                          lng = locationMap['lng'];
+                          changeText();
                         },
                         child: Text(buttonText),
                       ),
                     )),
                 Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Form(
                       key: formKeys[3],
                       child: TextFormField(
@@ -335,10 +334,11 @@ class _ContributePageState extends State<ContributePage> {
                             if (value!.isEmpty) {
                               return 'Please enter the item name';
                             }
+                            return null;
                           }),
                     )),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: formKeys[0],
                     child: TextFormField(
@@ -365,7 +365,7 @@ class _ContributePageState extends State<ContributePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: formKeys[1],
                     child: TextFormField(
@@ -379,7 +379,7 @@ class _ContributePageState extends State<ContributePage> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 7)),
+                            lastDate: DateTime.now().add(const Duration(days: 7)),
                           );
                           if (selectedDate != null) {
                             final selectedTime = await showTimePicker(
@@ -396,11 +396,12 @@ class _ContributePageState extends State<ContributePage> {
                           if (value!.isEmpty) {
                             return 'Please enter a valid date and time';
                           }
+                          return null;
                         }),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Form(
                     key: formKeys[2],
                     child: TextFormField(
@@ -421,13 +422,13 @@ class _ContributePageState extends State<ContributePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(minimumSize: Size(150, 50)),
+                          ElevatedButton.styleFrom(minimumSize: const Size(150, 50)),
                       onPressed: () {
                         if ((formKeys[0].currentState!.validate()) &&
                             (formKeys[1].currentState!.validate()) &&
@@ -448,12 +449,12 @@ class _ContributePageState extends State<ContributePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UserHomePage()),
+                                  builder: (context) => const UserHomePage()),
                             );
                           });
                         }
                       },
-                      child: Text("Add Item"),
+                      child: const Text("Add Item"),
                     )
                   ],
                 ),

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 
 class ResetScreen extends StatefulWidget {
+  const ResetScreen({super.key});
+
   @override
   _ResetScreenState createState() => _ResetScreenState();
 }
@@ -14,7 +16,7 @@ class _ResetScreenState extends State<ResetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(  
-      appBar: AppBar(title: Text('Reset Password'),),
+      appBar: AppBar(title: const Text('Reset Password'),),
       body: Center(
         child: Column(
           children: [
@@ -22,7 +24,7 @@ class _ResetScreenState extends State<ResetScreen> {
               padding: const EdgeInsets.all(32.0),
               child: TextField(
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(  
+                decoration: const InputDecoration(  
                   hintText: 'Email'
                 ),
                  onChanged: (value) {
@@ -36,7 +38,7 @@ class _ResetScreenState extends State<ResetScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  child: Text('Send Reset Link'),
+                  child: const Text('Send Reset Link'),
                   onPressed: () {
                     auth.sendPasswordResetEmail(email: _email);
                     Navigator.of(context).pop();

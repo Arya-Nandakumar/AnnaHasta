@@ -8,7 +8,7 @@ import '../../models/remote_data_source/distributer_helper.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
 
 class ProceedPage extends StatefulWidget {
-  ProceedPage({required this.documentId});
+  const ProceedPage({super.key, required this.documentId});
 
   final String documentId;
   @override
@@ -59,7 +59,7 @@ class _ProceedPageState extends State<ProceedPage> {
       FirestoreHelper.delete(documentId).then(
         (value) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Donategif()));
+              context, MaterialPageRoute(builder: (context) => const Donategif()));
         },
       );
     });
@@ -87,11 +87,11 @@ class _ProceedPageState extends State<ProceedPage> {
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData) {
-              return Center(child: Text('No data found'));
+              return const Center(child: Text('No data found'));
             } else {
               Map<String, dynamic> data =
                   snapshot.data!.data() as Map<String, dynamic>;
@@ -109,11 +109,11 @@ class _ProceedPageState extends State<ProceedPage> {
               return Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 300,
                             child: GoogleMap(
@@ -121,12 +121,12 @@ class _ProceedPageState extends State<ProceedPage> {
                                 target: LatLng(lat, lng),
                                 zoom: 15.0,
                               ),
-                              markers: Set<Marker>.from([
+                              markers: <Marker>{
                                 Marker(
-                                  markerId: MarkerId('markerId'),
+                                  markerId: const MarkerId('markerId'),
                                   position: LatLng(lat, lng),
                                 ),
-                              ]),
+                              },
                               zoomGesturesEnabled: false,
                               scrollGesturesEnabled: false,
                               tiltGesturesEnabled: false,
@@ -137,10 +137,10 @@ class _ProceedPageState extends State<ProceedPage> {
                           ),
                         ]),
                   ),
-                  Text("Location: " + location),
-                  Text("Quantity: " + quantity),
-                  Text("Date: " + date),
-                  Text("Phone Number: " + phone),
+                  Text("Location: $location"),
+                  Text("Quantity: $quantity"),
+                  Text("Date: $date"),
+                  Text("Phone Number: $phone"),
                 ],
               );
             }
@@ -157,19 +157,19 @@ class _ProceedPageState extends State<ProceedPage> {
                 });
               },
             ),
-            Text(
+            const Text(
               'I am ready to distribute',
               overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(150, 50),
+            minimumSize: const Size(150, 50),
           ),
-          child: Text('Confirm'),
           onPressed: agree ? _doSomething : null,
+          child: const Text('Confirm'),
         ),
       ]),
     );

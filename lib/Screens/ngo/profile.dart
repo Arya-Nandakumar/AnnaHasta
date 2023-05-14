@@ -1,5 +1,4 @@
 import 'package:annahasta/models/cont_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:annahasta/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/remote_data_source/distributer_helper.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -44,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
           centerTitle: true,
         ),
         body: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -53,55 +54,55 @@ class _ProfilePageState extends State<ProfilePage> {
                       'assets/default.png',
                       height: 120, // Set the height of the logo image
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${firstName} ${secondName}",
-                            style: TextStyle(fontSize: 18),
+                            "$firstName $secondName",
+                            style: const TextStyle(fontSize: 18),
                           ),
                           Text(
-                            "${email}",
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            "$email",
+                            style: const TextStyle(fontSize: 14, color: Colors.grey),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(150, 50),
+                              minimumSize: const Size(150, 50),
                             ),
                             onPressed: () {
                               _logout();
                             },
-                            child: Text('Logout'),
+                            child: const Text('Logout'),
                           ),
                         ],
                       ),
                     ),
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
-                  Text(
+                  const Text(
                     "Comfirmed Listings",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   StreamBuilder<List<ContModel>>(
                     stream: DistributedHelper.read(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
                       if (snapshot.hasError) {
-                        return Center(
+                        return const Center(
                           child: Text("some error occurred"),
                         );
                       }
@@ -116,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             itemBuilder: (context, index) {
                               final singleUser = filteredData[index];
                               return Container(
-                                margin: EdgeInsets.symmetric(vertical: 5),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0),
@@ -143,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             'assets/thing.png',
                                             height: 20,
                                           ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         Flexible(
                                           child: Text(
                                             "${singleUser.boxID}",
@@ -162,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         );
                       }
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     },
@@ -178,6 +179,6 @@ class _ProfilePageState extends State<ProfilePage> {
     FirebaseAuth.instance.signOut();
 
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => SignInPage()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 }

@@ -4,7 +4,7 @@ import 'package:annahasta/Screens/ngo/search.dart';
 
 class BottomNav extends StatelessWidget {
   final int selectedIndex;
-  BottomNav({this.selectedIndex = 0});
+  const BottomNav({super.key, this.selectedIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class BottomNav extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => HomePage(),
+                pageBuilder: (context, animation1, animation2) => const HomePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
@@ -50,7 +50,7 @@ class BottomNav extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => SearchPage(),
+                pageBuilder: (context, animation1, animation2) => const SearchPage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),

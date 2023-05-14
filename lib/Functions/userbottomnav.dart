@@ -5,7 +5,7 @@ import 'package:annahasta/Screens/user/contribute.dart';
 
 class UserBottomNav extends StatelessWidget {
   final int selectedIndex;
-  UserBottomNav({this.selectedIndex = 0});
+  const UserBottomNav({super.key, this.selectedIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class UserBottomNav extends StatelessWidget {
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) =>
-                    UserHomePage(),
+                    const UserHomePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
@@ -47,7 +47,7 @@ class UserBottomNav extends StatelessWidget {
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) =>
-                    ContributePage(),
+                    const ContributePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
@@ -57,7 +57,7 @@ class UserBottomNav extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => SearchPage(),
+                pageBuilder: (context, animation1, animation2) => const SearchPage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),

@@ -1,13 +1,12 @@
-import 'dart:ffi';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 
 import '../ngo/proceed.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -85,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
         elevation: 4,
         title: TextField(
           controller: _searchController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search...',
             hintStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
@@ -97,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: BottomNav(selectedIndex: 1),
+      bottomNavigationBar: const BottomNav(selectedIndex: 1),
       body: ListView.builder(
           itemCount: _resultList.length,
           itemBuilder: (context, index) {
@@ -107,25 +106,25 @@ class _SearchPageState extends State<SearchPage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Details'),
+                      title: const Text('Details'),
                       content: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text("Location: ${_resultList[index]['boxID']}"),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text("Quantity: ${_resultList[index]['caseID']}"),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             if (_resultList[index]['itemtype'] == "food")
                               Text(
                                   "Vegetarian: ${_resultList[index]['isveg'] == "FoodType.veg" ? "Yes" : "No"}"),
                             if (_resultList[index]['itemtype'] != "food")
                               Text(
                                   "Item Name: ${_resultList[index]['itemtype']}"),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                                 "Date & Time: ${_resultList[index]['contents']}"),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                           ],
                         ),
                       ),
@@ -134,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
                           onPressed: () {
                             Navigator.pop(context, _resultList[index].id);
                           },
-                          child: Text('Close'),
+                          child: const Text('Close'),
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -152,7 +151,7 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             );
                           },
-                          child: Text('Proceed'),
+                          child: const Text('Proceed'),
                         ),
                       ],
                     );

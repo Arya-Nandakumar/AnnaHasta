@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class AddressPage extends StatefulWidget {
+  const AddressPage({super.key});
+
   @override
   State<AddressPage> createState() => _AddressPageState();
 }
 
 class _AddressPageState extends State<AddressPage> {
-  TextEditingController _locationController = TextEditingController();
-  GoogleMapsPlaces _places =
+  final TextEditingController _locationController = TextEditingController();
+  final GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: 'AIzaSyAu4-37ES5w9oa7mgazzYRe07oOST101zU');
   List<Prediction> _predictions = [];
 
@@ -65,7 +66,7 @@ class _AddressPageState extends State<AddressPage> {
         title: TextField(
           controller: _locationController,
           onChanged: _onTextChanged,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Search Location",
             border: InputBorder.none,
           ),

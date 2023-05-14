@@ -4,9 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/Screens/common/login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:annahasta/models/user_model.dart';
 
 class VerifyScreen extends StatefulWidget {
+  const VerifyScreen({super.key});
+
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
@@ -21,7 +22,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user = auth.currentUser;
     user?.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -43,9 +44,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
             Text(
               'An email has been sent to ${user?.email} please verify',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.0),
+              style: const TextStyle(fontSize: 18.0),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -59,7 +60,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
       timer?.cancel();
       postDetailsToFirestore();
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => SignInPage()));
+          MaterialPageRoute(builder: (context) => const SignInPage()));
     }
   }
 
@@ -75,7 +76,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => SignInPage()),
+      MaterialPageRoute(builder: (context) => const SignInPage()),
       (route) => false,
     );
   }

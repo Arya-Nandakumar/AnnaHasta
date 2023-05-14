@@ -7,6 +7,8 @@ import 'package:annahasta/models/user_model.dart';
 import 'package:annahasta/Screens/common/verify.dart';
 
 class SignUpPageU extends StatefulWidget {
+  const SignUpPageU({super.key});
+
   @override
   _SignUpPageUState createState() => _SignUpPageUState();
 }
@@ -17,11 +19,11 @@ class _SignUpPageUState extends State<SignUpPageU> {
   String? errorMessage;
   final _formKey = GlobalKey<FormState>();
 
-  final firstNameEditingController = new TextEditingController();
-  final secondNameEditingController = new TextEditingController();
-  final emailEditingController = new TextEditingController();
-  final passwordEditingController = new TextEditingController();
-  final fssaiController = new TextEditingController();
+  final firstNameEditingController = TextEditingController();
+  final secondNameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
+  final passwordEditingController = TextEditingController();
+  final fssaiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
               children: [
                 TextFormField(
                   controller: emailEditingController,
-                  decoration: InputDecoration(labelText: "Email"),
+                  decoration: const InputDecoration(labelText: "Email"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please enter a valid email";
@@ -53,7 +55,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
                 TextFormField(
                   controller: passwordEditingController,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: "Password"),
+                  decoration: const InputDecoration(labelText: "Password"),
                   validator: (value) {
                     if (value!.length < 6) {
                       return "Password must be at least 6 characters";
@@ -66,7 +68,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
                 ),
                 TextFormField(
                   controller: firstNameEditingController,
-                  decoration: InputDecoration(labelText: "First Name"),
+                  decoration: const InputDecoration(labelText: "First Name"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please enter your First name";
@@ -79,7 +81,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
                 ),
                 TextFormField(
                   controller: secondNameEditingController,
-                  decoration: InputDecoration(labelText: "Last Name"),
+                  decoration: const InputDecoration(labelText: "Last Name"),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please enter your Last name";
@@ -90,20 +92,20 @@ class _SignUpPageUState extends State<SignUpPageU> {
                     secondNameEditingController.text = value!;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 50),
+          minimumSize: const Size(150, 50),
         ),
                     onPressed: () {
                       signUp(emailEditingController.text,
                           passwordEditingController.text);
                     },
-                    child: Text("Sign Up"),
+                    child: const Text("Sign Up"),
                   ),
                 ),
                 TextButton(
@@ -112,13 +114,13 @@ class _SignUpPageUState extends State<SignUpPageU> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            SignInPage(),
+                            const SignInPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
                     );
                   },
-                  child: Text('Already have an account? Login'),
+                  child: const Text('Already have an account? Login'),
                 ),
               ],
             ),
@@ -136,7 +138,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
             .then((_) {
           postDetailsToFirestore();
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => VerifyScreen()));
+              MaterialPageRoute(builder: (context) => const VerifyScreen()));
         }).catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
         });
@@ -193,7 +195,7 @@ class _SignUpPageUState extends State<SignUpPageU> {
 
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => SignInPage()),
+        MaterialPageRoute(builder: (context) => const SignInPage()),
         (route) => false);
   }
 }

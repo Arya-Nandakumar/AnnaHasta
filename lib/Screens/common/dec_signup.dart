@@ -4,6 +4,8 @@ import 'package:annahasta/Screens/ngo/signup.dart';
 import 'package:annahasta/Screens/common/login.dart';
 
 class DSignUpPage extends StatelessWidget {
+  const DSignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -15,18 +17,18 @@ class DSignUpPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'I want to',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          SignUpPage(),
+                          const SignUpPage(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ),
@@ -36,9 +38,9 @@ class DSignUpPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.group, size: 30),
@@ -50,14 +52,14 @@ class DSignUpPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          SignUpPageU(),
+                          const SignUpPageU(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ),
@@ -67,9 +69,9 @@ class DSignUpPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.person, size: 30),
@@ -81,20 +83,20 @@ class DSignUpPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          SignInPage(),
+                          const SignInPage(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ),
                   );
                 },
-                child: Text('Go Back'),
+                child: const Text('Go Back'),
               ),
             ],
           ),

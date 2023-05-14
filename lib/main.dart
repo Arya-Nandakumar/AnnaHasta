@@ -1,4 +1,3 @@
-import 'package:annahasta/Screens/common/login.dart';
 import 'package:annahasta/Screens/common/splashcheck.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,20 +18,20 @@ class MyApp extends StatelessWidget {
       title: 'AnnaHasta',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: buildMaterialColor(Color(0xFF5823f9)),
+        colorSchemeSeed: buildMaterialColor(const Color(0xFF5823f9)),
         appBarTheme: AppBarTheme(
-          color: buildMaterialColor(Color(0xFF5823f9)),
+          color: buildMaterialColor(const Color(0xFF5823f9)),
           foregroundColor: Colors.white,
         ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        colorSchemeSeed: buildMaterialColor(Color(0xFF5823f9)),
-        appBarTheme: AppBarTheme(),
+        colorSchemeSeed: buildMaterialColor(const Color(0xFF5823f9)),
+        appBarTheme: const AppBarTheme(),
       ),
       themeMode: ThemeMode.system,
-      home: SplashPage(),
+      home: const SplashPage(),
     );
   }
 }

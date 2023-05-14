@@ -1,7 +1,5 @@
-import 'package:annahasta/Screens/ngo/details.dart';
 import 'package:annahasta/Screens/ngo/proceed.dart';
 import 'package:flutter/material.dart';
-import 'package:annahasta/main.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/Screens/ngo/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
@@ -9,6 +7,8 @@ import '../../models/remote_data_source/firestore_helper.dart';
 import 'package:annahasta/Screens/user/home.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -26,19 +26,19 @@ class _HomePageState extends State<HomePage> {
               context,
               PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) =>
-                    UserHomePage(),
+                    const UserHomePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
             );
           },
-          child: Text(
+          child: const Text(
             'AnnaHasta',
           ),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.account_circle_outlined,
             ),
             tooltip: 'Profile',
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
-                      ProfilePage(),
+                      const ProfilePage(),
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         ],
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: BottomNav(selectedIndex: 0),
+      bottomNavigationBar: const BottomNav(selectedIndex: 0),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -66,12 +66,12 @@ class _HomePageState extends State<HomePage> {
                 stream: FirestoreHelper.read(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
                   if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Text("some error occured"),
                     );
                   }
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, index) {
                             final singleUser = userData[index];
                             return Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
+                              margin: const EdgeInsets.symmetric(vertical: 5),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: Text("Details"),
+                                          title: const Text("Details"),
                                           content: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -104,20 +104,20 @@ class _HomePageState extends State<HomePage> {
                                             children: [
                                               Text(
                                                   "Location: ${singleUser.boxID}"),
-                                              SizedBox(height: 5),
+                                              const SizedBox(height: 5),
                                               Text(
                                                   "Quantity: ${singleUser.caseID}"),
-                                              SizedBox(height: 5),
+                                              const SizedBox(height: 5),
                                               if(singleUser.itemtype=="food")
                                               Text(
                                                   "Vegetarian: ${singleUser.isveg == "FoodType.veg" ? "Yes" : "No"}"),
                                               if(singleUser.itemtype!="food")
                                               Text(
                                                   "Item Name: ${singleUser.itemtype}"),
-                                              SizedBox(height: 5),
+                                              const SizedBox(height: 5),
                                               Text(
                                                   "Date & Time: ${singleUser.contents}"),
-                                              SizedBox(height: 5),
+                                              const SizedBox(height: 5),
                                             ],
                                           ),
                                           actions: [
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                                               onPressed: () {
                                                 Navigator.pop(context,singleUser.documentID);
                                               },
-                                              child: Text('Close'),
+                                              child: const Text('Close'),
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
 );
 
                                               },
-                                              child: Text('Proceed'),
+                                              child: const Text('Proceed'),
                                             ),
                                           ],
                                         );
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                           height: 20,
                                         ),
                                       // Add leading idd leading icon
-                                      SizedBox(
+                                      const SizedBox(
                                           width:
                                               10), // Add some space between the icon and text
                                       Flexible(
@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                           }),
                     );
                   }
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 })

@@ -6,6 +6,8 @@ import 'package:annahasta/Screens/common/dec_signup.dart';
 import 'package:annahasta/Functions/decidepage.dart';
 
 class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -16,7 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
-  bool _isLoginForm = true;
+  final bool _isLoginForm = true;
 
   @override
   void initState() {
@@ -46,7 +48,7 @@ class _SignInPageState extends State<SignInPage> {
           prefs.setString('password', password);
 
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => VerifyCheckPage()));
+              MaterialPageRoute(builder: (context) => const VerifyCheckPage()));
         }).catchError((error) {
           setState(() {
             _isLoading = false;
@@ -80,11 +82,11 @@ class _SignInPageState extends State<SignInPage> {
                     }
                     return null;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
@@ -94,23 +96,23 @@ class _SignInPageState extends State<SignInPage> {
                     }
                     return null;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35.0,
                 ),
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
                        style: ElevatedButton.styleFrom(
-          minimumSize: Size(150, 50),
+          minimumSize: const Size(150, 50),
         ),
-                        child: Text('Sign In'),
                         onPressed: _submit,
+                        child: const Text('Sign In'),
                       ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 TextButton(
@@ -119,13 +121,13 @@ class _SignInPageState extends State<SignInPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            ResetScreen(),
+                            const ResetScreen(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
                     );
                   },
-                  child: Text('Forgot password?'),
+                  child: const Text('Forgot password?'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -133,13 +135,13 @@ class _SignInPageState extends State<SignInPage> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
-                            DSignUpPage(),
+                            const DSignUpPage(),
                         transitionDuration: Duration.zero,
                         reverseTransitionDuration: Duration.zero,
                       ),
                     );
                   },
-                  child: Text('Sign up'),
+                  child: const Text('Sign up'),
                 ),
               ],
             ),

@@ -1,9 +1,10 @@
 import 'package:annahasta/Screens/ngo/home.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Donategif extends StatefulWidget {
+  const Donategif({super.key});
+
   
 
   @override
@@ -32,7 +33,7 @@ class _MyAppState extends State<Donategif> with TickerProviderStateMixin {
         // _controller.reset();
         Navigator.pushReplacement(
           context, 
-          MaterialPageRoute(builder: (context) => HomePage()));
+          MaterialPageRoute(builder: (context) => const HomePage()));
       }
     });
   }

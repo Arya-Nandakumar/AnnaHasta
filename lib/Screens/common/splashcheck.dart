@@ -6,12 +6,14 @@ import 'package:annahasta/Functions/decidepage.dart';
 
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
   _SplashPageState createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
-  bool _isLoading = false;
+  final bool _isLoading = false;
    @override
   void initState() {
     super.initState();
@@ -30,14 +32,14 @@ class _SplashPageState extends State<SplashPage> {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((user) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => VerifyCheckPage()));
+            MaterialPageRoute(builder: (context) => const VerifyCheckPage()));
       }).catchError((error) {
         print(error);
       });
     }
     else {
       Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => SignInPage()));
+            MaterialPageRoute(builder: (context) => const SignInPage()));
     }
   }
 
@@ -47,7 +49,7 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: 
       Container(
-        decoration: BoxDecoration(color: Color(0xFF5823f9)),
+        decoration: const BoxDecoration(color: Color(0xFF5823f9)),
       child: Center(
          child: Padding(
             padding: const EdgeInsets.all(32.0),
@@ -58,10 +60,10 @@ class _SplashPageState extends State<SplashPage> {
                   'assets/icon/logo_w.png',
                   height: 100, // Set the height of the logo image
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
-              CircularProgressIndicator()
+              const CircularProgressIndicator()
               ],
          ),
       ),

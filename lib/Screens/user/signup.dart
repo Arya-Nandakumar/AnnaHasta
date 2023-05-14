@@ -7,6 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:annahasta/models/user_model.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -17,11 +19,11 @@ class _SignUpPageState extends State<SignUpPage> {
   String? errorMessage;
   final _formKey = GlobalKey<FormState>();
 
-  final firstNameEditingController = new TextEditingController();
-  final secondNameEditingController = new TextEditingController();
-  final emailEditingController = new TextEditingController();
-  final passwordEditingController = new TextEditingController();
-  final fssaiController = new TextEditingController();
+  final firstNameEditingController = TextEditingController();
+  final secondNameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
+  final passwordEditingController = TextEditingController();
+  final fssaiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               TextFormField(
                 controller: emailEditingController,
-                decoration: InputDecoration(labelText: "Email"),
+                decoration: const InputDecoration(labelText: "Email"),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter a valid email";
@@ -49,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 controller: passwordEditingController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
+                decoration: const InputDecoration(labelText: "Password"),
                 validator: (value) {
                   if (value!.length < 6) {
                     return "Password must be at least 6 characters";
@@ -62,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextFormField(
                 controller: firstNameEditingController,
-                decoration: InputDecoration(labelText: "First Name"),
+                decoration: const InputDecoration(labelText: "First Name"),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter your First name";
@@ -75,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextFormField(
                 controller: secondNameEditingController,
-                decoration: InputDecoration(labelText: "Last Name"),
+                decoration: const InputDecoration(labelText: "Last Name"),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter your Last name";
@@ -88,31 +90,31 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextFormField(
                 controller: fssaiController,
-                decoration: InputDecoration(labelText: "FSSAI Number"),
+                decoration: const InputDecoration(labelText: "FSSAI Number"),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter your FSSAI number";
                   }
-                  if (value!.length != 14) {
+                  if (value.length != 14) {
                     return "Please enter a valid FSSAI number";
                   }
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(150, 50),
+                    minimumSize: const Size(150, 50),
                   ),
                   onPressed: () {
                     signUp(emailEditingController.text,
                         passwordEditingController.text);
                   },
-                  child: Text("Sign Up"),
+                  child: const Text("Sign Up"),
                 ),
               ),
               TextButton(
@@ -121,13 +123,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          SignInPage(),
+                          const SignInPage(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ),
                   );
                 },
-                child: Text('Already have an account? Login'),
+                child: const Text('Already have an account? Login'),
               ),
             ],
           ),
@@ -144,7 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .then((_) {
           postDetailsToFirestore();
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => VerifyScreen()));
+              MaterialPageRoute(builder: (context) => const VerifyScreen()));
         }).catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
         });
@@ -202,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => SignInPage()),
+        MaterialPageRoute(builder: (context) => const SignInPage()),
         (route) => false);
   }
 }
