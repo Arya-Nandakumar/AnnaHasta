@@ -8,49 +8,27 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavigationBar(
-      animationDuration: const Duration(seconds: 1),
-      selectedIndex: selectedIndex,
-      destinations: const <Widget>[
-        NavigationDestination(
-          selectedIcon: Icon(Icons.home),
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          selectedIcon: Icon(Icons.find_in_page_sharp),
-          icon: Icon(Icons.find_in_page_outlined),
-          label: 'Search',
-        ),
-      ],
-      onDestinationSelected: (int index) {
+    return BottomNavigationBar(
+      currentIndex: selectedIndex,
+      onTap: (int index) {
         switch (index) {
           case 0:
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => const HomePage(),
+                pageBuilder: (context, animation1, animation2) =>
+                    const HomePage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
             );
             break;
-          // case 1:
-          //   Navigator.pushReplacement(
-          //     context,
-          //     PageRouteBuilder(
-          //       pageBuilder: (context, animation1, animation2) =>
-          //           ContributePage(),
-          //       transitionDuration: Duration.zero,
-          //       reverseTransitionDuration: Duration.zero,
-          //     ),
-          //   );
-          //   break;
           case 1:
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => const SearchPage(),
+                pageBuilder: (context, animation1, animation2) =>
+                    const SearchPage(),
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero,
               ),
@@ -58,6 +36,18 @@ class BottomNav extends StatelessWidget {
             break;
         }
       },
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          activeIcon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.find_in_page_outlined),
+          activeIcon: Icon(Icons.find_in_page_sharp),
+          label: 'Search',
+        ),
+      ],
     );
   }
 }

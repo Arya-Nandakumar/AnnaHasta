@@ -18,17 +18,36 @@ class MyApp extends StatelessWidget {
       title: 'AnnaHasta',
       theme: ThemeData(
         useMaterial3: true,
+        brightness: Brightness.light,
         colorSchemeSeed: buildMaterialColor(const Color(0xFF5823f9)),
-        appBarTheme: AppBarTheme(
-          color: buildMaterialColor(const Color(0xFF5823f9)),
-          foregroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
         ),
+        cardTheme: CardTheme(
+            color: const Color.fromARGB(255, 156, 156, 156),
+            elevation: 0.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            )),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
         colorSchemeSeed: buildMaterialColor(const Color(0xFF5823f9)),
-        appBarTheme: const AppBarTheme(),
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: const AppBarTheme(
+          color: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        cardTheme: CardTheme(
+            elevation: 0.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            )),
       ),
       themeMode: ThemeMode.system,
       home: const SplashPage(),
