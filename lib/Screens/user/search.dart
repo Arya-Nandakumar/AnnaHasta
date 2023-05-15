@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
-import 'package:annahasta/Functions/newnavbar.dart';
+import 'package:annahasta/Functions/usernavbar.dart';
+import 'package:line_icons/line_icons.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -109,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                 decoration: const InputDecoration(
                   hintText: 'Search',
                   border: InputBorder.none,
-                  icon: Icon(Icons.search),
+                  icon: Icon(LineIcons.search),
                 ),
                 onChanged: (value) {
                   _onSearchChanged();

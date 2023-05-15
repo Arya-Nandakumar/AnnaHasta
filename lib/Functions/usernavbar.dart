@@ -2,6 +2,7 @@ import 'package:annahasta/Screens/user/contribute.dart';
 import 'package:flutter/material.dart';
 import '../Screens/user/home.dart';
 import '../Screens/user/search.dart';
+import 'package:line_icons/line_icons.dart';
 
 class SpotifyBottomNavigationBar extends StatefulWidget {
   final int initialIndex;
@@ -84,19 +85,19 @@ class _SpotifyBottomNavigationBarState
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(LineIcons.home),
             label: 'Home',
-            activeIcon: Icon(Icons.home_filled),
+            activeIcon: Icon(LineIcons.home),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline_outlined),
+            icon: Icon(LineIcons.plusCircle),
             label: 'Contribute',
-            activeIcon: Icon(Icons.add_circle_sharp),
+            activeIcon: Icon(LineIcons.plusCircle),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(LineIcons.search),
             label: 'Search',
-            activeIcon: Icon(Icons.search_rounded),
+            activeIcon: Icon(LineIcons.search),
           ),
         ],
       ),

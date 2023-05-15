@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             color: buildMaterialColor(const Color(0xFFefeeef)),
             elevation: 0.0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(10.0),
             )),
       ),
       darkTheme: ThemeData(
@@ -49,6 +49,12 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             )),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          )),
+        ),
       ),
       themeMode: ThemeMode.system,
       home: const SplashPage(),

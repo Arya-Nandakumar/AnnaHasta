@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:annahasta/Screens/user/address.dart';
 import 'package:annahasta/Screens/user/home.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Functions/colorhex.dart';
-import '../../Functions/newnavbar.dart';
+import '../../Functions/usernavbar.dart';
 import '../../models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ContributePage extends StatefulWidget {
   const ContributePage({super.key});
@@ -27,6 +30,8 @@ class _ContributePageState extends State<ContributePage> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
   late DateTime selectedDateTime;
   //Items Page Controller
   final TextEditingController _itemnameController = TextEditingController();
@@ -94,6 +99,68 @@ class _ContributePageState extends State<ContributePage> {
     });
   }
 
+  void _doSomethingFood() async {
+    if ((formKeys[0].currentState!.validate()) &&
+        (formKeys[1].currentState!.validate()) &&
+        (formKeys[2].currentState!.validate()) &&
+        (formKeys[3].currentState!.validate())) {
+      FirestoreHelper.create(
+        ContModel(
+            boxID: _locationController.text,
+            caseID: _quantityController.text,
+            contents: _dateTimeController.text,
+            vname: _phoneController.text,
+            isveg: _foodType.toString(),
+            userid: userID,
+            itemtype: 'food',
+            lat: lat,
+            lng: lng),
+      ).then((value) {
+        Fluttertoast.showToast(msg: 'Posted!');
+        _btnController.success();
+        Timer(Duration(seconds: 1), () {
+          _btnController.reset();
+        });
+      });
+    } else {
+      _btnController.error();
+      Timer(Duration(seconds: 1), () {
+        _btnController.reset();
+      });
+    }
+  }
+
+  void _doSomethingItem() async {
+    if ((formKeys[4].currentState!.validate()) &&
+        (formKeys[5].currentState!.validate()) &&
+        (formKeys[6].currentState!.validate()) &&
+        (formKeys[7].currentState!.validate()) &&
+        (formKeys[8].currentState!.validate())) {
+      FirestoreHelper.create(ContModel(
+              boxID: _locationController.text,
+              caseID: _itemquantityController.text,
+              vname: _itemphoneController.text,
+              contents: _itemdateTimeController.text,
+              itemtype: _itemnameController.text,
+              isveg: "thing",
+              userid: userID,
+              lat: lat,
+              lng: lng))
+          .then((value) {
+        Fluttertoast.showToast(msg: "Item Added!");
+        _btnController.success();
+        Timer(Duration(seconds: 1), () {
+          _btnController.reset();
+        });
+      });
+    } else {
+      _btnController.error();
+      Timer(Duration(seconds: 1), () {
+        _btnController.reset();
+      });
+    }
+  }
+
   void changeText() {
     setState(() {
       _locationController.text = result;
@@ -119,6 +186,7 @@ class _ContributePageState extends State<ContributePage> {
             top: true, // Add top padding
             minimum: EdgeInsets.only(top: 60), // Set the top padding value
             child: AppBar(
+              automaticallyImplyLeading: false,
               title: Text(
                 "Contribute",
                 style: TextStyle(fontSize: 30),
@@ -312,38 +380,16 @@ class _ContributePageState extends State<ContributePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(150, 50),
-                      ),
-                      onPressed: () {
-                        if ((formKeys[0].currentState!.validate()) &&
-                            (formKeys[1].currentState!.validate()) &&
-                            (formKeys[2].currentState!.validate()) &&
-                            (formKeys[3].currentState!.validate())) {
-                          FirestoreHelper.create(
-                            ContModel(
-                                boxID: _locationController.text,
-                                caseID: _quantityController.text,
-                                contents: _dateTimeController.text,
-                                vname: _phoneController.text,
-                                isveg: _foodType.toString(),
-                                userid: userID,
-                                itemtype: 'food',
-                                lat: lat,
-                                lng: lng),
-                          ).then((value) {
-                            Fluttertoast.showToast(msg: 'Posted!');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserHomePage()),
-                            );
-                          });
-                        }
-                      },
-                      child: const Text('Create'),
-                    ),
+                    RoundedLoadingButton(
+                      width: 200,
+                      color: buildMaterialColor(const Color(0xFF5823f9)),
+                      borderRadius: 10,
+                      elevation: 0,
+                      child:
+                          Text('Create', style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomethingFood,
+                    )
                   ],
                 ),
               ],
@@ -487,36 +533,15 @@ class _ContributePageState extends State<ContributePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(150, 50)),
-                      onPressed: () {
-                        if ((formKeys[4].currentState!.validate()) &&
-                            (formKeys[5].currentState!.validate()) &&
-                            (formKeys[6].currentState!.validate()) &&
-                            (formKeys[7].currentState!.validate()) &&
-                            (formKeys[8].currentState!.validate())) {
-                          FirestoreHelper.create(ContModel(
-                                  boxID: _locationController.text,
-                                  caseID: _itemquantityController.text,
-                                  vname: _itemphoneController.text,
-                                  contents: _itemdateTimeController.text,
-                                  itemtype: _itemnameController.text,
-                                  isveg: "thing",
-                                  userid: userID,
-                                  lat: lat,
-                                  lng: lng))
-                              .then((value) {
-                            Fluttertoast.showToast(msg: "Item Added!");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserHomePage()),
-                            );
-                          });
-                        }
-                      },
-                      child: const Text("Add Item"),
+                    RoundedLoadingButton(
+                      width: 200,
+                      color: buildMaterialColor(const Color(0xFF5823f9)),
+                      borderRadius: 10,
+                      elevation: 0,
+                      child: Text('Add Item',
+                          style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed: _doSomethingItem,
                     )
                   ],
                 ),

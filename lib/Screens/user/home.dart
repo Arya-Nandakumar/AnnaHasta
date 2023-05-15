@@ -2,8 +2,9 @@ import 'package:annahasta/Screens/user/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/models/cont_model.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
-import 'package:annahasta/Functions/newnavbar.dart';
+import 'package:annahasta/Functions/usernavbar.dart';
 import 'package:annahasta/Functions/colorhex.dart';
+import 'package:line_icons/line_icons.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -57,9 +58,7 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
                   Spacer(),
                   IconButton(
-                    icon: const Icon(
-                      Icons.account_circle_outlined,
-                    ),
+                    icon: const Icon(LineIcons.userCircle),
                     tooltip: 'Profile',
                     onPressed: () {
                       Navigator.push(
