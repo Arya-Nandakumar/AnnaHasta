@@ -1,10 +1,9 @@
-import 'package:annahasta/Screens/user/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:annahasta/models/cont_model.dart';
-import '../../models/remote_data_source/firestore_helper.dart';
 import 'package:annahasta/Functions/usernavbar.dart';
 import 'package:line_icons/line_icons.dart';
+
+import '../../Functions/colorhex.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -84,6 +83,10 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: SpotifyBottomNavigationBar(
@@ -129,6 +132,10 @@ class _SearchPageState extends State<SearchPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor: adColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
                             title: const Text('Details'),
                             content: SingleChildScrollView(
                               child: Column(
@@ -170,10 +177,10 @@ class _SearchPageState extends State<SearchPage> {
                         leading: Container(
                           width: 60.0,
                           height: 80.0,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5.0)),
-                            color: Colors.white12,
+                            color: adColor,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),

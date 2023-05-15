@@ -3,7 +3,9 @@ import 'package:annahasta/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/Screens/common/login.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Functions/colorhex.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -39,6 +41,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -50,9 +56,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: [
-                    Image.asset(
-                      'assets/default.png',
-                      height: 120, // Set the height of the logo image
+                    Icon(
+                      LineIcons.user,
+                      size: 130,
                     ),
                     const SizedBox(width: 20),
                     Expanded(
@@ -84,12 +90,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
-                    "My Listings",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("My Listings",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   StreamBuilder<List<ContModel>>(
                     stream: FirestoreHelper.read(),
@@ -121,10 +129,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     leading: Container(
                                       width: 60.0,
                                       height: 80.0,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        color: Colors.white12,
+                                        color: adColor,
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(15.0),
@@ -159,6 +167,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
+                                            backgroundColor: adColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10.0))),
                                             title: const Text("Delete"),
                                             content: const Text(
                                                 "Are you sure you want to delete"),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:annahasta/Functions/bottomnav.dart';
 import 'package:annahasta/Screens/ngo/profile.dart';
 import 'package:annahasta/models/cont_model.dart';
+import 'package:line_icons/line_icons.dart';
+import '../../Functions/colorhex.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
 import 'package:annahasta/Screens/user/home.dart';
 
@@ -14,55 +16,68 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+  final _scrollController = ScrollController();
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color color = isDarkMode ? Colors.white : Colors.black;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: true,
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) =>
-                    const UserHomePage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
-          child: const Text(
-            'AnnaHasta',
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle_outlined,
-            ),
-            tooltip: 'Profile',
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      const ProfilePage(),
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
-              );
-            },
-          ),
-        ],
-        automaticallyImplyLeading: false,
+      extendBody: true,
+      bottomNavigationBar: SpotifyBottomNavigationBar(
+        initialIndex: 0,
+        onItemTapped: (index) {
+          // Do something when an item in the navigation bar is tapped
+        },
       ),
-      bottomNavigationBar: const BottomNav(selectedIndex: 0),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            StreamBuilder<List<ContModel>>(
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            floating: false,
+            pinned: true,
+            snap: false,
+            expandedHeight: 100.0,
+            actions: <Widget>[],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.asset(
+                'assets/background.png',
+                fit: BoxFit.cover,
+              ),
+              titlePadding: EdgeInsets.fromLTRB(20, 0, 0, 8),
+              title: Row(
+                children: [
+                  Text(
+                    'AnnaHasta',
+                    style: TextStyle(
+                      color: color,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: const Icon(LineIcons.userCircle),
+                    tooltip: 'Profile',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const ProfilePage(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              StreamBuilder<List<ContModel>>(
                 stream: FirestoreHelper.read(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -72,124 +87,138 @@ class _HomePageState extends State<HomePage> {
                   }
                   if (snapshot.hasError) {
                     return const Center(
-                      child: Text("some error occured"),
+                      child: Text("Some error occurred"),
                     );
                   }
                   if (snapshot.hasData) {
                     final userData = snapshot.data;
-                    return Expanded(
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: ListView.builder(
-                          itemCount: userData!.length,
-                          itemBuilder: (context, index) {
-                            final singleUser = userData[index];
-                            return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: userData!.length,
+                        itemBuilder: (context, index) {
+                          final singleUser = userData[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 3),
+                            child: Card(
+                              child: ListTile(
+                                leading: Container(
+                                  width: 60.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: adColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: (() {
+                                      if (singleUser.isveg == "FoodType.veg") {
+                                        return Image.asset('assets/veg.png');
+                                      } else if (singleUser.isveg ==
+                                          "FoodType.nonVeg") {
+                                        return Image.asset('assets/nonveg.png');
+                                      } else if (singleUser.isveg == "thing") {
+                                        return Image.asset('assets/thing.png');
+                                      } else {
+                                        return Container();
+                                      }
+                                    })(),
+                                  ),
                                 ),
-                                child: ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 10.0),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text("Details"),
-                                          content: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                  "Location: ${singleUser.boxID}"),
-                                              const SizedBox(height: 5),
-                                              Text(
-                                                  "Quantity: ${singleUser.caseID}"),
-                                              const SizedBox(height: 5),
-                                              if(singleUser.itemtype=="food")
+                                title: Text(
+                                  "${singleUser.boxID}",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}",
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        backgroundColor: adColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0))),
+                                        title: const Text("Details"),
+                                        content: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                                "Location: ${singleUser.boxID}"),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                                "Quantity: ${singleUser.caseID}"),
+                                            const SizedBox(height: 5),
+                                            if (singleUser.itemtype == "food")
                                               Text(
                                                   "Vegetarian: ${singleUser.isveg == "FoodType.veg" ? "Yes" : "No"}"),
-                                              if(singleUser.itemtype!="food")
+                                            if (singleUser.itemtype != "food")
                                               Text(
                                                   "Item Name: ${singleUser.itemtype}"),
-                                              const SizedBox(height: 5),
-                                              Text(
-                                                  "Date & Time: ${singleUser.contents}"),
-                                              const SizedBox(height: 5),
-                                            ],
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context,singleUser.documentID);
-                                              },
-                                              child: const Text('Close'),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.push(
-  context,
-  PageRouteBuilder(
-    pageBuilder: (context, animation1, animation2) => ProceedPage(documentId: singleUser.documentID!),
-    transitionDuration: Duration.zero,
-    reverseTransitionDuration: Duration.zero,
-    settings: RouteSettings(arguments: singleUser.documentID),
-  ),
-);
-
-                                              },
-                                              child: const Text('Proceed'),
-                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                                "Date & Time: ${singleUser.contents}"),
+                                            const SizedBox(height: 5),
                                           ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  title: Row(
-                                    children: [
-                                      if (singleUser.isveg == "FoodType.veg")
-                                        Image.asset(
-                                          'assets/veg.png',
-                                          height: 15,
                                         ),
-                                      if (singleUser.isveg == "FoodType.nonVeg")
-                                        Image.asset(
-                                          'assets/nonveg.png',
-                                          height: 15,
-                                        ),
-                                      if (singleUser.isveg == "thing")
-                                        Image.asset(
-                                          'assets/thing.png',
-                                          height: 20,
-                                        ),
-                                      // Add leading idd leading icon
-                                      const SizedBox(
-                                          width:
-                                              10), // Add some space between the icon and text
-                                      Flexible(
-                        child: Text(
-                          "${singleUser.boxID}",
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                                    ],
-                                  ),
-                                  subtitle: Text(
-                                      "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}"),
-                                ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context,
+                                                  singleUser.documentID);
+                                            },
+                                            child: const Text('Close'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                PageRouteBuilder(
+                                                  pageBuilder: (context,
+                                                          animation1,
+                                                          animation2) =>
+                                                      ProceedPage(
+                                                          documentId: singleUser
+                                                              .documentID!),
+                                                  transitionDuration:
+                                                      Duration.zero,
+                                                  reverseTransitionDuration:
+                                                      Duration.zero,
+                                                  settings: RouteSettings(
+                                                      arguments: singleUser
+                                                          .documentID),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text('Proceed'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
-                            );
-                          }),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                })
-          ],
-        ),
+                },
+              )
+            ]),
+          ),
+        ],
       ),
     );
   }

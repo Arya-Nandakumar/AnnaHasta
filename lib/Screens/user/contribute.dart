@@ -22,7 +22,7 @@ class ContributePage extends StatefulWidget {
 
 enum FoodType { veg, nonVeg }
 
-final List<String> _tabs = ['Food', 'Things'];
+final List<String> _tabs = ['Food', 'Item'];
 
 class _ContributePageState extends State<ContributePage> {
   FoodType _foodType = FoodType.veg;
@@ -171,6 +171,9 @@ class _ContributePageState extends State<ContributePage> {
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final Color color = isDarkMode ? Colors.white : Colors.black;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF1a1b1b))
+        : buildMaterialColor(const Color(0xFFefeeef));
     return DefaultTabController(
       length: 2, // Number of tabs
       child: Scaffold(
@@ -382,11 +385,10 @@ class _ContributePageState extends State<ContributePage> {
                   children: <Widget>[
                     RoundedLoadingButton(
                       width: 200,
-                      color: buildMaterialColor(const Color(0xFF5823f9)),
+                      color: adColor,
                       borderRadius: 10,
                       elevation: 0,
-                      child:
-                          Text('Create', style: TextStyle(color: Colors.white)),
+                      child: Text('Create', style: TextStyle(color: color)),
                       controller: _btnController,
                       onPressed: _doSomethingFood,
                     )
@@ -535,11 +537,10 @@ class _ContributePageState extends State<ContributePage> {
                   children: <Widget>[
                     RoundedLoadingButton(
                       width: 200,
-                      color: buildMaterialColor(const Color(0xFF5823f9)),
+                      color: adColor,
                       borderRadius: 10,
                       elevation: 0,
-                      child: Text('Add Item',
-                          style: TextStyle(color: Colors.white)),
+                      child: Text('Add Item', style: TextStyle(color: color)),
                       controller: _btnController,
                       onPressed: _doSomethingItem,
                     )

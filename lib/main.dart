@@ -32,7 +32,16 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             )),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: buildMaterialColor(const Color(0xFFefeeef)),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              )),
+        ),
       ),
+//The Dark Side
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -51,9 +60,11 @@ class MyApp extends StatelessWidget {
             )),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
+              backgroundColor: buildMaterialColor(const Color(0xFF1a1b1b)),
+              elevation: 0,
               shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          )),
+                borderRadius: BorderRadius.circular(10.0),
+              )),
         ),
       ),
       themeMode: ThemeMode.system,

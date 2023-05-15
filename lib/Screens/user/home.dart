@@ -24,6 +24,9 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final Color color = isDarkMode ? Colors.white : Colors.black;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: SpotifyBottomNavigationBar(
@@ -108,10 +111,10 @@ class _UserHomePageState extends State<UserHomePage> {
                                 leading: Container(
                                   width: 60.0,
                                   height: 80.0,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5.0)),
-                                    color: Colors.white12,
+                                    color: adColor,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),

@@ -3,7 +3,9 @@ import 'package:annahasta/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:annahasta/Screens/common/login.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Functions/colorhex.dart';
 import '../../models/remote_data_source/distributer_helper.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -39,6 +41,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
+    final _scrollController = ScrollController();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -50,9 +57,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: [
-                    Image.asset(
-                      'assets/default.png',
-                      height: 120, // Set the height of the logo image
+                    Icon(
+                      LineIcons.userNinja,
+                      size: 130,
                     ),
                     const SizedBox(width: 20),
                     Expanded(
@@ -65,15 +72,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Text(
                             "$email",
-                            style: const TextStyle(fontSize: 14, color: Colors.grey),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(150, 50),
-                            ),
                             onPressed: () {
                               _logout();
                             },
@@ -86,12 +91,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
-                    "Comfirmed Listings",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text("Confirmed Listings",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   StreamBuilder<List<ContModel>>(
                     stream: DistributedHelper.read(),
@@ -119,39 +126,39 @@ class _ProfilePageState extends State<ProfilePage> {
                               return Container(
                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                 child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
                                   child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 10.0),
-                                    onLongPress: () {},
-                                    title: Row(
-                                      children: [
-                                        if (singleUser.isveg == "FoodType.veg")
-                                          Image.asset(
-                                            'assets/veg.png',
-                                            height: 15,
-                                          ),
-                                        if (singleUser.isveg ==
-                                            "FoodType.nonVeg")
-                                          Image.asset(
-                                            'assets/nonveg.png',
-                                            height: 15,
-                                          ),
-                                        if (singleUser.isveg == "thing")
-                                          Image.asset(
-                                            'assets/thing.png',
-                                            height: 20,
-                                          ),
-                                        const SizedBox(width: 10),
-                                        Flexible(
-                                          child: Text(
-                                            "${singleUser.boxID}",
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
+                                    leading: Container(
+                                      width: 60.0,
+                                      height: 80.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        color: adColor,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: (() {
+                                          if (singleUser.isveg ==
+                                              "FoodType.veg") {
+                                            return Image.asset(
+                                                'assets/veg.png');
+                                          } else if (singleUser.isveg ==
+                                              "FoodType.nonVeg") {
+                                            return Image.asset(
+                                                'assets/nonveg.png');
+                                          } else if (singleUser.isveg ==
+                                              "thing") {
+                                            return Image.asset(
+                                                'assets/thing.png');
+                                          } else {
+                                            return Container();
+                                          }
+                                        })(),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      "${singleUser.boxID}",
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     subtitle: Text(
                                       "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}",
@@ -178,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     FirebaseAuth.instance.signOut();
 
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => const SignInPage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 }

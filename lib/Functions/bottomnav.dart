@@ -1,53 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:annahasta/Screens/ngo/home.dart';
-import 'package:annahasta/Screens/ngo/search.dart';
+import '../Screens/ngo/home.dart';
+import '../Screens/ngo/search.dart';
+import 'package:line_icons/line_icons.dart';
 
-class BottomNav extends StatelessWidget {
-  final int selectedIndex;
-  const BottomNav({super.key, this.selectedIndex = 0});
+class SpotifyBottomNavigationBar extends StatefulWidget {
+  final int initialIndex;
+  final Function(int) onItemTapped;
+
+  SpotifyBottomNavigationBar(
+      {this.initialIndex = 0, required this.onItemTapped});
+
+  @override
+  _SpotifyBottomNavigationBarState createState() =>
+      _SpotifyBottomNavigationBarState();
+}
+
+class _SpotifyBottomNavigationBarState
+    extends State<SpotifyBottomNavigationBar> {
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    widget.onItemTapped(index);
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const HomePage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          ),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) =>
+                const SearchPage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          ),
+        );
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedIndex,
-      onTap: (int index) {
-        switch (index) {
-          case 0:
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) =>
-                    const HomePage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-            break;
-          case 1:
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) =>
-                    const SearchPage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-            break;
-        }
-      },
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          activeIcon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.find_in_page_outlined),
-          activeIcon: Icon(Icons.find_in_page_sharp),
-          label: 'Search',
-        ),
-      ],
+    return SizedBox(
+      height: 70,
+      child: BottomNavigationBar(
+        elevation: 1,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(LineIcons.home),
+            label: 'Home',
+            activeIcon: Icon(LineIcons.home),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LineIcons.search),
+            label: 'Search',
+            activeIcon: Icon(LineIcons.search),
+          ),
+        ],
+      ),
     );
   }
 }
