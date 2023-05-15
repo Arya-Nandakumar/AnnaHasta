@@ -23,24 +23,34 @@ final List<String> _tabs = ['Food', 'Things'];
 
 class _ContributePageState extends State<ContributePage> {
   FoodType _foodType = FoodType.veg;
-  final TextEditingController _locationController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _menuController = TextEditingController();
-  final TextEditingController _itemnameController = TextEditingController();
   late DateTime selectedDateTime;
+  //Items Page Controller
+  final TextEditingController _itemnameController = TextEditingController();
+  final TextEditingController _itemquantityController = TextEditingController();
+  final TextEditingController _itemdateTimeController = TextEditingController();
+  final TextEditingController _itemphoneController = TextEditingController();
+
   String? userID;
   String buttonText = 'Select Location'; // The initial text on the button
   String result = '';
   late Map locationMap;
   late double lat;
   late double lng;
+
   List<GlobalKey<FormState>> formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
-    GlobalKey<FormState>()
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
   ];
 
   @override
@@ -86,7 +96,7 @@ class _ContributePageState extends State<ContributePage> {
 
   void changeText() {
     setState(() {
-      buttonText = result;
+      _locationController.text = result;
     });
   }
 
@@ -156,11 +166,15 @@ class _ContributePageState extends State<ContributePage> {
               children: <Widget>[
                 const SizedBox(height: 15.0),
                 Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () async {
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: formKeys[0],
+                    child: TextFormField(
+                        controller: _locationController,
+                        decoration: InputDecoration(
+                          hintText: 'Location',
+                        ),
+                        onTap: () async {
                           locationMap = await Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -171,13 +185,18 @@ class _ContributePageState extends State<ContributePage> {
                           lng = locationMap['lng'];
                           changeText();
                         },
-                        child: Text(buttonText),
-                      ),
-                    )),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please select a Location';
+                          }
+                          return null;
+                        }),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
-                    key: formKeys[0],
+                    key: formKeys[1],
                     child: TextFormField(
                       controller: _quantityController,
                       keyboardType: TextInputType.number,
@@ -207,7 +226,7 @@ class _ContributePageState extends State<ContributePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
-                    key: formKeys[1],
+                    key: formKeys[2],
                     child: TextFormField(
                         controller: _dateTimeController,
                         decoration: const InputDecoration(
@@ -244,7 +263,7 @@ class _ContributePageState extends State<ContributePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
-                    key: formKeys[2],
+                    key: formKeys[3],
                     child: TextFormField(
                       controller: _phoneController,
                       decoration: const InputDecoration(
@@ -300,10 +319,11 @@ class _ContributePageState extends State<ContributePage> {
                       onPressed: () {
                         if ((formKeys[0].currentState!.validate()) &&
                             (formKeys[1].currentState!.validate()) &&
-                            (formKeys[2].currentState!.validate())) {
+                            (formKeys[2].currentState!.validate()) &&
+                            (formKeys[3].currentState!.validate())) {
                           FirestoreHelper.create(
                             ContModel(
-                                boxID: result,
+                                boxID: _locationController.text,
                                 caseID: _quantityController.text,
                                 contents: _dateTimeController.text,
                                 vname: _phoneController.text,
@@ -333,11 +353,15 @@ class _ContributePageState extends State<ContributePage> {
               child: Column(children: <Widget>[
                 const SizedBox(height: 15.0),
                 Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () async {
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: formKeys[4],
+                    child: TextFormField(
+                        controller: _locationController,
+                        decoration: InputDecoration(
+                          hintText: 'Location',
+                        ),
+                        onTap: () async {
                           locationMap = await Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -348,13 +372,18 @@ class _ContributePageState extends State<ContributePage> {
                           lng = locationMap['lng'];
                           changeText();
                         },
-                        child: Text(buttonText),
-                      ),
-                    )),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please select a Location';
+                          }
+                          return null;
+                        }),
+                  ),
+                ),
                 Padding(
                     padding: const EdgeInsets.all(16),
                     child: Form(
-                      key: formKeys[3],
+                      key: formKeys[5],
                       child: TextFormField(
                           controller: _itemnameController,
                           decoration: const InputDecoration(
@@ -371,9 +400,9 @@ class _ContributePageState extends State<ContributePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
-                    key: formKeys[0],
+                    key: formKeys[6],
                     child: TextFormField(
-                      controller: _quantityController,
+                      controller: _itemquantityController,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: "Number of items",
@@ -398,9 +427,9 @@ class _ContributePageState extends State<ContributePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
-                    key: formKeys[1],
+                    key: formKeys[7],
                     child: TextFormField(
-                        controller: _dateTimeController,
+                        controller: _itemdateTimeController,
                         decoration: const InputDecoration(
                           labelText: "Date and Time",
                           focusedBorder: OutlineInputBorder(),
@@ -419,7 +448,7 @@ class _ContributePageState extends State<ContributePage> {
                               initialTime: TimeOfDay.now(),
                             );
                             if (selectedTime != null) {
-                              _dateTimeController.text =
+                              _itemdateTimeController.text =
                                   "${DateFormat("dd-MM-yy").format(selectedDate)} ${selectedTime.format(context)}";
                             }
                           }
@@ -435,9 +464,9 @@ class _ContributePageState extends State<ContributePage> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Form(
-                    key: formKeys[2],
+                    key: formKeys[8],
                     child: TextFormField(
-                      controller: _phoneController,
+                      controller: _itemphoneController,
                       decoration: const InputDecoration(
                         labelText: "Phone Number",
                         focusedBorder: OutlineInputBorder(),
@@ -462,15 +491,16 @@ class _ContributePageState extends State<ContributePage> {
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(150, 50)),
                       onPressed: () {
-                        if ((formKeys[0].currentState!.validate()) &&
-                            (formKeys[1].currentState!.validate()) &&
-                            (formKeys[2].currentState!.validate()) &&
-                            (formKeys[3].currentState!.validate())) {
+                        if ((formKeys[4].currentState!.validate()) &&
+                            (formKeys[5].currentState!.validate()) &&
+                            (formKeys[6].currentState!.validate()) &&
+                            (formKeys[7].currentState!.validate()) &&
+                            (formKeys[8].currentState!.validate())) {
                           FirestoreHelper.create(ContModel(
-                                  boxID: result,
-                                  caseID: _quantityController.text,
-                                  vname: _phoneController.text,
-                                  contents: _dateTimeController.text,
+                                  boxID: _locationController.text,
+                                  caseID: _itemquantityController.text,
+                                  vname: _itemphoneController.text,
+                                  contents: _itemdateTimeController.text,
                                   itemtype: _itemnameController.text,
                                   isveg: "thing",
                                   userid: userID,
