@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:annahasta/Screens/user/address.dart';
-import 'package:annahasta/Screens/user/home.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,7 +25,7 @@ final List<String> _tabs = ['Food', 'Item'];
 
 class _ContributePageState extends State<ContributePage> {
   FoodType _foodType = FoodType.veg;
-  TextEditingController _locationController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -118,13 +117,13 @@ class _ContributePageState extends State<ContributePage> {
       ).then((value) {
         Fluttertoast.showToast(msg: 'Posted!');
         _btnController.success();
-        Timer(Duration(seconds: 1), () {
+        Timer(const Duration(seconds: 1), () {
           _btnController.reset();
         });
       });
     } else {
       _btnController.error();
-      Timer(Duration(seconds: 1), () {
+      Timer(const Duration(seconds: 1), () {
         _btnController.reset();
       });
     }
@@ -149,13 +148,13 @@ class _ContributePageState extends State<ContributePage> {
           .then((value) {
         Fluttertoast.showToast(msg: "Item Added!");
         _btnController.success();
-        Timer(Duration(seconds: 1), () {
+        Timer(const Duration(seconds: 1), () {
           _btnController.reset();
         });
       });
     } else {
       _btnController.error();
-      Timer(Duration(seconds: 1), () {
+      Timer(const Duration(seconds: 1), () {
         _btnController.reset();
       });
     }
@@ -184,25 +183,25 @@ class _ContributePageState extends State<ContributePage> {
           },
         ),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(120.0), // here the desired height
+          preferredSize: const Size.fromHeight(120.0), // here the desired height
           child: SafeArea(
             top: true, // Add top padding
-            minimum: EdgeInsets.only(top: 60), // Set the top padding value
+            minimum: const EdgeInsets.only(top: 60), // Set the top padding value
             child: AppBar(
               automaticallyImplyLeading: false,
-              title: Text(
+              title: const Text(
                 "Contribute",
                 style: TextStyle(fontSize: 30),
               ),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(40),
+                preferredSize: const Size.fromHeight(40),
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10), // Add left padding
+                  padding: const EdgeInsets.only(left: 10), // Add left padding
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: TabBar(
                         indicatorSize: TabBarIndicatorSize.tab,
-                        indicator: new BubbleTabIndicator(
+                        indicator: BubbleTabIndicator(
                           indicatorHeight: 25.0,
                           indicatorColor:
                               buildMaterialColor(const Color(0xFF5823f9)),
@@ -215,7 +214,7 @@ class _ContributePageState extends State<ContributePage> {
                                     horizontal: 0, vertical: 0),
                                 child: Tab(
                                   child: Text(
-                                    "$label",
+                                    label,
                                     style: TextStyle(
                                       color: color,
                                     ),
@@ -242,7 +241,7 @@ class _ContributePageState extends State<ContributePage> {
                     key: formKeys[0],
                     child: TextFormField(
                         controller: _locationController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Location',
                         ),
                         onTap: () async {
@@ -388,9 +387,9 @@ class _ContributePageState extends State<ContributePage> {
                       color: adColor,
                       borderRadius: 10,
                       elevation: 0,
-                      child: Text('Create', style: TextStyle(color: color)),
                       controller: _btnController,
                       onPressed: _doSomethingFood,
+                      child: Text('Create', style: TextStyle(color: color)),
                     )
                   ],
                 ),
@@ -406,7 +405,7 @@ class _ContributePageState extends State<ContributePage> {
                     key: formKeys[4],
                     child: TextFormField(
                         controller: _locationController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Location',
                         ),
                         onTap: () async {
@@ -540,9 +539,9 @@ class _ContributePageState extends State<ContributePage> {
                       color: adColor,
                       borderRadius: 10,
                       elevation: 0,
-                      child: Text('Add Item', style: TextStyle(color: color)),
                       controller: _btnController,
                       onPressed: _doSomethingItem,
+                      child: Text('Add Item', style: TextStyle(color: color)),
                     )
                   ],
                 ),

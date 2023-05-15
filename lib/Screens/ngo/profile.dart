@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final Color adColor = isDarkMode
         ? buildMaterialColor(const Color(0xFF242525))
         : buildMaterialColor(const Color(0xFFBDBDBD));
-    final _scrollController = ScrollController();
+    final scrollController = ScrollController();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: [
-                    Icon(
+                    const Icon(
                       LineIcons.userNinja,
                       size: 130,
                     ),
@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("Confirmed Listings",
+                    child: const Text("Confirmed Listings",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
@@ -131,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       width: 60.0,
                                       height: 80.0,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(5.0)),
                                         color: adColor,
                                       ),

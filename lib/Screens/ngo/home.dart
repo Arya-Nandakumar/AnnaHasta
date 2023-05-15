@@ -6,7 +6,6 @@ import 'package:annahasta/models/cont_model.dart';
 import 'package:line_icons/line_icons.dart';
 import '../../Functions/colorhex.dart';
 import '../../models/remote_data_source/firestore_helper.dart';
-import 'package:annahasta/Screens/user/home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
+  @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final Color color = isDarkMode ? Colors.white : Colors.black;
@@ -40,13 +40,13 @@ class _HomePageState extends State<HomePage> {
             pinned: true,
             snap: false,
             expandedHeight: 100.0,
-            actions: <Widget>[],
+            actions: const <Widget>[],
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset(
                 'assets/background.png',
                 fit: BoxFit.cover,
               ),
-              titlePadding: EdgeInsets.fromLTRB(20, 0, 0, 8),
+              titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 8),
               title: Row(
                 children: [
                   Text(
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                       color: color,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                     icon: const Icon(LineIcons.userCircle),
                     tooltip: 'Profile',
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     color: adColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                        const BorderRadius.all(Radius.circular(5.0)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) {
                                       return AlertDialog(
                                         backgroundColor: adColor,
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0))),
                                         title: const Text("Details"),

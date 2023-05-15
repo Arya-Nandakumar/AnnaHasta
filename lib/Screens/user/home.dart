@@ -44,13 +44,13 @@ class _UserHomePageState extends State<UserHomePage> {
             pinned: true,
             snap: false,
             expandedHeight: 100.0,
-            actions: <Widget>[],
+            actions: const <Widget>[],
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset(
                 'assets/background.png',
                 fit: BoxFit.cover,
               ),
-              titlePadding: EdgeInsets.fromLTRB(20, 0, 0, 8),
+              titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 8),
               title: Row(
                 children: [
                   Text(
@@ -59,7 +59,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       color: color,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                     icon: const Icon(LineIcons.userCircle),
                     tooltip: 'Profile',
@@ -113,7 +113,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                   height: 80.0,
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                        const BorderRadius.all(Radius.circular(5.0)),
                                     color: adColor,
                                   ),
                                   child: Padding(

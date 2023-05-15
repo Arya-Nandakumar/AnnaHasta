@@ -8,8 +8,8 @@ class SpotifyBottomNavigationBar extends StatefulWidget {
   final int initialIndex;
   final Function(int) onItemTapped;
 
-  SpotifyBottomNavigationBar(
-      {this.initialIndex = 0, required this.onItemTapped});
+  const SpotifyBottomNavigationBar(
+      {super.key, this.initialIndex = 0, required this.onItemTapped});
 
   @override
   _SpotifyBottomNavigationBarState createState() =>
@@ -49,7 +49,7 @@ class _SpotifyBottomNavigationBarState
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => ContributePage(),
+            pageBuilder: (context, animation1, animation2) => const ContributePage(),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           ),
@@ -82,8 +82,8 @@ class _SpotifyBottomNavigationBarState
         onTap: _onItemTapped,
         selectedFontSize: 12,
         unselectedFontSize: 12,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        items: [
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(LineIcons.home),
             label: 'Home',

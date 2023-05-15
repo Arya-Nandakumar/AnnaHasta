@@ -86,7 +86,7 @@ class _SearchPageState extends State<SearchPage> {
     final Color adColor = isDarkMode
         ? buildMaterialColor(const Color(0xFF242525))
         : buildMaterialColor(const Color(0xFFBDBDBD));
-    final _scrollController = ScrollController();
+    final scrollController = ScrollController();
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: SpotifyBottomNavigationBar(
@@ -96,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
         },
       ),
       body: CustomScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -104,9 +104,9 @@ class _SearchPageState extends State<SearchPage> {
             pinned: true,
             snap: false,
             expandedHeight: 100.0,
-            actions: <Widget>[],
+            actions: const <Widget>[],
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.fromLTRB(20, 0, 0, 8),
+              titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 8),
               title: TextField(
                 autofocus: true,
                 controller: _searchController,
@@ -122,7 +122,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -133,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             backgroundColor: adColor,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10.0))),
                             title: const Text('Details'),
@@ -198,7 +198,7 @@ class _SearchPageState extends State<SearchPage> {
                           height: 80.0,
                           decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
+                                const BorderRadius.all(Radius.circular(5.0)),
                             color: adColor,
                           ),
                           child: Padding(

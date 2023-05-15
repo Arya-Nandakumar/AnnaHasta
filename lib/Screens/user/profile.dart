@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: [
-                    Icon(
+                    const Icon(
                       LineIcons.user,
                       size: 130,
                     ),
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text("My Listings",
+                    child: const Text("My Listings",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       width: 60.0,
                                       height: 80.0,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(5.0)),
                                         color: adColor,
                                       ),
@@ -168,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         builder: (context) {
                                           return AlertDialog(
                                             backgroundColor: adColor,
-                                            shape: RoundedRectangleBorder(
+                                            shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10.0))),
                                             title: const Text("Delete"),

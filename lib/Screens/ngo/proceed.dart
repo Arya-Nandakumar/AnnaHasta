@@ -1,5 +1,4 @@
 import 'package:annahasta/Screens/ngo/confirmgif.dart';
-import 'package:annahasta/Screens/user/contribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -129,7 +128,7 @@ class _ProceedPageState extends State<ProceedPage> {
               return Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -138,7 +137,7 @@ class _ProceedPageState extends State<ProceedPage> {
                           width: 1,
                         ),
                       ),
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Container(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -174,27 +173,27 @@ class _ProceedPageState extends State<ProceedPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                "$location",
+                                location,
                                 style: const TextStyle(fontSize: 20),
                               ),
                               if (type == "FoodType.veg")
-                                Text(
+                                const Text(
                                   'Food Type: Veg',
                                   style: TextStyle(fontSize: 15),
                                 ),
                               if (type == "FoodType.nonVeg")
-                                Text(
+                                const Text(
                                   'Food Type: Non Veg',
                                   style: TextStyle(fontSize: 15),
                                 ),
                               if (type == "thing")
                                 Text(
                                   'Item: $itemtype',
-                                  style: TextStyle(fontSize: 15),
+                                  style: const TextStyle(fontSize: 15),
                                 ),
                               Text(
                                 "Quantity: $quantity",
