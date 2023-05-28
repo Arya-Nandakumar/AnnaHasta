@@ -1,16 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:annahasta/Functions/userbottomnav.dart';
+import 'package:flutter/material.dart';
+import 'package:annahasta/Functions/usernavbar.dart';
+import 'package:line_icons/line_icons.dart';
 
+import '../../Functions/colorhex.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
+  Size get preferredSize => const Size.fromHeight(56.0);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final _scrollController = ScrollController();
+
   List _allResults = [];
   List _resultList = [];
 
@@ -78,141 +83,142 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color adColor = isDarkMode
+        ? buildMaterialColor(const Color(0xFF242525))
+        : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
-      appBar: AppBar(
-        elevation: 4,
-        title: TextField(
-          controller: _searchController,
-          decoration: const InputDecoration(
-            hintText: 'Search...',
-            hintStyle: TextStyle(color: Colors.white),
-            border: InputBorder.none,
-            icon: Icon(Icons.search, color: Colors.white),
-          ),
-          onChanged: (value) {
-            _onSearchChanged();
-          },
-        ),
-        automaticallyImplyLeading: false,
+      extendBody: true,
+      bottomNavigationBar: SpotifyBottomNavigationBar(
+        initialIndex: 2,
+        onItemTapped: (index) {
+          // Do something when an item in the navigation bar is tapped
+        },
       ),
-      bottomNavigationBar: const UserBottomNav(selectedIndex: 2),
-      body: ListView.builder(
-          itemCount: _resultList.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Details'),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("Location: ${_resultList[index]['boxID']}"),
-                            const SizedBox(height: 5),
-                            Text("Quantity: ${_resultList[index]['caseID']}"),
-                            const SizedBox(height: 5),
-                            if (_resultList[index]['itemtype'] == "food")
-                              Text(
-                                  "Vegetarian: ${_resultList[index]['isveg'] == "FoodType.veg" ? "Yes" : "No"}"),
-                            if (_resultList[index]['itemtype'] != "food")
-                              Text(
-                                  "Item Name: ${_resultList[index]['itemtype']}"),
-                            const SizedBox(height: 5),
-                            Text(
-                                "Date & Time: ${_resultList[index]['contents']}"),
-                            const SizedBox(height: 5),
-                          ],
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            floating: false,
+            pinned: true,
+            snap: false,
+            expandedHeight: 100.0,
+            actions: const <Widget>[],
+            flexibleSpace: FlexibleSpaceBar(
+              titlePadding: const EdgeInsets.fromLTRB(20, 0, 0, 8),
+              title: TextField(
+                autofocus: true,
+                controller: _searchController,
+                decoration: const InputDecoration(
+                  hintText: 'Search',
+                  border: InputBorder.none,
+                  icon: Icon(LineIcons.search),
+                ),
+                onChanged: (value) {
+                  _onSearchChanged();
+                },
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(16),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: adColor,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0))),
+                            title: const Text('Details'),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                      "Location: ${_resultList[index]['boxID']}"),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                      "Quantity: ${_resultList[index]['caseID']}"),
+                                  const SizedBox(height: 5),
+                                  if (_resultList[index]['itemtype'] == "food")
+                                    Text(
+                                        "Vegetarian: ${_resultList[index]['isveg'] == "FoodType.veg" ? "Yes" : "No"}"),
+                                  if (_resultList[index]['itemtype'] != "food")
+                                    Text(
+                                        "Item Name: ${_resultList[index]['itemtype']}"),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                      "Date & Time: ${_resultList[index]['contents']}"),
+                                  const SizedBox(height: 5),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context, _resultList[index].id);
+                                },
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        leading: Container(
+                          width: 60.0,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0)),
+                            color: adColor,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: (() {
+                              if (_resultList[index]['isveg'] ==
+                                  "FoodType.veg") {
+                                return Image.asset('assets/veg.png');
+                              } else if (_resultList[index]['isveg'] ==
+                                  "FoodType.nonVeg") {
+                                return Image.asset('assets/nonveg.png');
+                              } else if (_resultList[index]['isveg'] ==
+                                  "thing") {
+                                return Image.asset('assets/thing.png');
+                              } else {
+                                return Container();
+                              }
+                            })(),
+                          ),
+                        ),
+                        title: Text(
+                          "${_resultList[index]['boxID']}",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          "Date & Time: ${_resultList[index]['contents']}\nQuantity: ${_resultList[index]['caseID']}",
                         ),
                       ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, _resultList[index].id);
-                          },
-                          child: const Text('Close'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: ListTile(
-                title: Text(
-                  _resultList[index]['boxID'],
-                ),
-                subtitle: Text(
-                  _resultList[index]['caseID'],
-                ),
-                trailing: Text(
-                  _resultList[index]['contents'],
-                ),
+                    ),
+                  );
+                },
+                childCount: _resultList.length,
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
               ),
-            );
-          }),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class SearchPage extends StatefulWidget {
-//   @override
-//   _SearchPageState createState() => _SearchPageState();
-// }
-
-// class _SearchPageState extends State<SearchPage> {
-//   final TextEditingController _searchController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         elevation: 4,
-//         title: TextField(
-//           style: TextStyle(color: Colors.white),
-//           controller: _searchController,
-//           decoration: InputDecoration(
-//             hintText: 'Search...',
-//             border: InputBorder.none,
-//             hintStyle: TextStyle(color: Colors.grey[350]),
-//           ),
-//           onSubmitted: (value) {
-//             // Perform the search here
-//           },
-//         ),
-//         actions: <Widget>[
-//           IconButton(
-//             icon: Icon(Icons.search),
-//             onPressed: () {
-//               // Perform the search here
-//             },
-//           ),
-//         ],
-//         automaticallyImplyLeading: false,
-//       ),
-//       bottomNavigationBar: BottomNav(selectedIndex: 2),
-//     );
-//   }
-// }

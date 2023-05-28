@@ -1,6 +1,7 @@
+import 'package:annahasta/Screens/user/contribute.dart';
 import 'package:flutter/material.dart';
-import '../Screens/ngo/home.dart';
-import '../Screens/ngo/search.dart';
+import '../Screens/user/home.dart';
+import '../Screens/user/search.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SpotifyBottomNavigationBar extends StatefulWidget {
@@ -37,13 +38,24 @@ class _SpotifyBottomNavigationBarState
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const HomePage(),
+            pageBuilder: (context, animation1, animation2) =>
+                const UserHomePage(),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           ),
         );
         break;
       case 1:
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => const ContributePage(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          ),
+        );
+        break;
+      case 2:
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
@@ -76,6 +88,11 @@ class _SpotifyBottomNavigationBarState
             icon: Icon(LineIcons.home),
             label: 'Home',
             activeIcon: Icon(LineIcons.home),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LineIcons.plusCircle),
+            label: 'Contribute',
+            activeIcon: Icon(LineIcons.plusCircle),
           ),
           BottomNavigationBarItem(
             icon: Icon(LineIcons.search),

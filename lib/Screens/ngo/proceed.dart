@@ -26,9 +26,28 @@ class _ProceedPageState extends State<ProceedPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userID = (prefs.getString('userid') ?? '');
+      final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+      if (isDarkMode == true) {
+        DefaultAssetBundle.of(context)
+            .loadString('assets/mapDarkTheme.json')
+            .then((string) {
+          mapStyle = string;
+        }).catchError((error) {
+          print(error.toString());
+        });
+      } else {
+        DefaultAssetBundle.of(context)
+            .loadString('assets/mapLightTheme.json')
+            .then((string) {
+          mapStyle = string;
+        }).catchError((error) {
+          print(error.toString());
+        });
+      }
     });
   }
 
+  late String mapStyle;
   late String documentId;
   String? userID;
   late GoogleMapController mapController;
@@ -58,8 +77,8 @@ class _ProceedPageState extends State<ProceedPage> {
     ).then((value) {
       FirestoreHelper.delete(documentId).then(
         (value) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const Donategif()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Donategif()));
         },
       );
     });
@@ -71,6 +90,8 @@ class _ProceedPageState extends State<ProceedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final Color color = isDarkMode ? Colors.white : Colors.black;
     documentId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
@@ -103,44 +124,95 @@ class _ProceedPageState extends State<ProceedPage> {
               lat = data['lat'] ?? '';
               lng = data['lng'] ?? '';
               itemtype = data['itemtype'] ?? '';
-              // Extract other fields as needed
 
-              // Display the fetched data in the widget
               return Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(20),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            width: double.infinity,
-                            height: 300,
-                            child: GoogleMap(
-                              initialCameraPosition: CameraPosition(
-                                target: LatLng(lat, lng),
-                                zoom: 15.0,
-                              ),
-                              markers: <Marker>{
-                                Marker(
-                                  markerId: const MarkerId('markerId'),
-                                  position: LatLng(lat, lng),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: color,
+                          width: 1,
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 200,
+                                  child: GoogleMap(
+                                    initialCameraPosition: CameraPosition(
+                                      target: LatLng(lat, lng),
+                                      zoom: 15.0,
+                                    ),
+                                    markers: <Marker>{
+                                      Marker(
+                                        markerId: const MarkerId('markerId'),
+                                        position: LatLng(lat, lng),
+                                      ),
+                                    },
+                                    mapType: MapType.normal,
+                                    zoomGesturesEnabled: false,
+                                    scrollGesturesEnabled: false,
+                                    tiltGesturesEnabled: false,
+                                    rotateGesturesEnabled: false,
+                                    myLocationButtonEnabled: false,
+                                    onMapCreated:
+                                        (GoogleMapController controller) {
+                                      controller.setMapStyle(mapStyle);
+                                    },
+                                  ),
                                 ),
-                              },
-                              zoomGesturesEnabled: false,
-                              scrollGesturesEnabled: false,
-                              tiltGesturesEnabled: false,
-                              rotateGesturesEnabled: false,
-                              myLocationButtonEnabled: false,
-                              onMapCreated: (GoogleMapController controller) {},
-                            ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                location,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              if (type == "FoodType.veg")
+                                const Text(
+                                  'Food Type: Veg',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              if (type == "FoodType.nonVeg")
+                                const Text(
+                                  'Food Type: Non Veg',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              if (type == "thing")
+                                Text(
+                                  'Item: $itemtype',
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              Text(
+                                "Quantity: $quantity",
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                "Date: $date",
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              Text(
+                                "Phone Number: $phone",
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ],
                           ),
-                        ]),
+                        ),
+                      ),
+                    ),
                   ),
-                  Text("Location: $location"),
-                  Text("Quantity: $quantity"),
-                  Text("Date: $date"),
-                  Text("Phone Number: $phone"),
                 ],
               );
             }
