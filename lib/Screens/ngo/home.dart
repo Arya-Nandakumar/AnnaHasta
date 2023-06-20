@@ -109,8 +109,8 @@ class _HomePageState extends State<HomePage> {
                                   height: 80.0,
                                   decoration: BoxDecoration(
                                     color: adColor,
-                                    borderRadius:
-                                        const BorderRadius.all(Radius.circular(5.0)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5.0)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
@@ -129,11 +129,11 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 title: Text(
-                                  "${singleUser.boxID}",
+                                  "${singleUser.locationData}",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                  "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}",
+                                  "Date & Time: ${singleUser.dateAndTime}\nQuantity: ${singleUser.quantityCount}",
                                 ),
                                 onTap: () {
                                   showDialog(
@@ -151,10 +151,10 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(
-                                                "Location: ${singleUser.boxID}"),
+                                                "Location: ${singleUser.locationData}"),
                                             const SizedBox(height: 5),
                                             Text(
-                                                "Quantity: ${singleUser.caseID}"),
+                                                "Quantity: ${singleUser.quantityCount}"),
                                             const SizedBox(height: 5),
                                             if (singleUser.itemtype == "food")
                                               Text(
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                                                   "Item Name: ${singleUser.itemtype}"),
                                             const SizedBox(height: 5),
                                             Text(
-                                                "Date & Time: ${singleUser.contents}"),
+                                                "Date & Time: ${singleUser.dateAndTime}"),
                                             const SizedBox(height: 5),
                                           ],
                                         ),

@@ -112,8 +112,8 @@ class _UserHomePageState extends State<UserHomePage> {
                                   width: 60.0,
                                   height: 80.0,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        const BorderRadius.all(Radius.circular(5.0)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5.0)),
                                     color: adColor,
                                   ),
                                   child: Padding(
@@ -133,11 +133,11 @@ class _UserHomePageState extends State<UserHomePage> {
                                   ),
                                 ),
                                 title: Text(
-                                  "${singleUser.boxID}",
+                                  "${singleUser.locationData}",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                  "Date & Time: ${singleUser.contents}\nQuantity: ${singleUser.caseID}",
+                                  "Date & Time: ${singleUser.dateAndTime}\nQuantity: ${singleUser.quantityCount}",
                                 ),
                               ),
                             ),

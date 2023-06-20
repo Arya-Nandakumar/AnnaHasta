@@ -61,89 +61,94 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'assets/icon/logo_c.png',
-                  height: 150, // Set the height of the logo image
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Center(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/icon/logo_c.png',
+                    height: 150, // Set the height of the logo image
                   ),
-                ),
-                const SizedBox(height: 20.0),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
+                  TextFormField(
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 35.0,
-                ),
-                _isLoading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                       style: ElevatedButton.styleFrom(
-          minimumSize: const Size(150, 50),
-        ),
-                        onPressed: _submit,
-                        child: const Text('Sign In'),
-                      ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            const ResetScreen(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  },
-                  child: const Text('Forgot password?'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            const DSignUpPage(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  },
-                  child: const Text('Sign up'),
-                ),
-              ],
+                  const SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 35.0,
+                  ),
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: _submit,
+                          child: const Text('Sign In'),
+                        ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const ResetScreen(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                    child: const Text('Forgot password?'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              const DSignUpPage(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                    child: const Text('Sign up'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

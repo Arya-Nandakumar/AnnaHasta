@@ -36,16 +36,19 @@ class _SearchPageState extends State<SearchPage> {
     var showResults = [];
     if (_searchController.text != "") {
       for (var clientSnapShot in _allResults) {
-        var boxID = clientSnapShot['boxID'].toString().toLowerCase();
-        if (boxID.contains(_searchController.text.toLowerCase())) {
+        var locationData =
+            clientSnapShot['locationData'].toString().toLowerCase();
+        if (locationData.contains(_searchController.text.toLowerCase())) {
           showResults.add(clientSnapShot);
         }
-        var caseID = clientSnapShot['caseID'].toString().toLowerCase();
-        if (caseID.contains(_searchController.text.toLowerCase())) {
+        var quantityCount =
+            clientSnapShot['quantityCount'].toString().toLowerCase();
+        if (quantityCount.contains(_searchController.text.toLowerCase())) {
           showResults.add(clientSnapShot);
         }
-        var contents = clientSnapShot['contents'].toString().toLowerCase();
-        if (contents.contains(_searchController.text.toLowerCase())) {
+        var dateAndTime =
+            clientSnapShot['dateAndTime'].toString().toLowerCase();
+        if (dateAndTime.contains(_searchController.text.toLowerCase())) {
           showResults.add(clientSnapShot);
         }
       }
@@ -60,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
   getClientStream() async {
     var data = await FirebaseFirestore.instance
         .collection('listings')
-        .orderBy('boxID')
+        .orderBy('locationData')
         .get();
     setState(() {
       _allResults = data.docs;
@@ -142,10 +145,10 @@ class _SearchPageState extends State<SearchPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      "Location: ${_resultList[index]['boxID']}"),
+                                      "Location: ${_resultList[index]['locationData']}"),
                                   const SizedBox(height: 5),
                                   Text(
-                                      "Quantity: ${_resultList[index]['caseID']}"),
+                                      "Quantity: ${_resultList[index]['quantityCount']}"),
                                   const SizedBox(height: 5),
                                   if (_resultList[index]['itemtype'] == "food")
                                     Text(
@@ -155,7 +158,7 @@ class _SearchPageState extends State<SearchPage> {
                                         "Item Name: ${_resultList[index]['itemtype']}"),
                                   const SizedBox(height: 5),
                                   Text(
-                                      "Date & Time: ${_resultList[index]['contents']}"),
+                                      "Date & Time: ${_resultList[index]['dateAndTime']}"),
                                   const SizedBox(height: 5),
                                 ],
                               ),
@@ -201,11 +204,11 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                         title: Text(
-                          "${_resultList[index]['boxID']}",
+                          "${_resultList[index]['locationData']}",
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: Text(
-                          "Date & Time: ${_resultList[index]['contents']}\nQuantity: ${_resultList[index]['caseID']}",
+                          "Date & Time: ${_resultList[index]['dateAndTime']}\nQuantity: ${_resultList[index]['quantityCount']}",
                         ),
                       ),
                     ),

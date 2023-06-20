@@ -27,111 +27,116 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: emailEditingController,
-                decoration: const InputDecoration(labelText: "Email"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter a valid email";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: passwordEditingController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: "Password"),
-                validator: (value) {
-                  if (value!.length < 6) {
-                    return "Password must be at least 6 characters";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: firstNameEditingController,
-                decoration: const InputDecoration(labelText: "First Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your First name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  firstNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: secondNameEditingController,
-                decoration: const InputDecoration(labelText: "Last Name"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your Last name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  secondNameEditingController.text = value!;
-                },
-              ),
-              TextFormField(
-                controller: fssaiController,
-                decoration: const InputDecoration(labelText: "FSSAI Number"),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your FSSAI number";
-                  }
-                  if (value.length != 14) {
-                    return "Please enter a valid FSSAI number";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 50),
-                  ),
-                  onPressed: () {
-                    signUp(emailEditingController.text,
-                        passwordEditingController.text);
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: emailEditingController,
+                  decoration: const InputDecoration(labelText: "Email"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter a valid email";
+                    }
+                    return null;
                   },
-                  child: const Text("Sign Up"),
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          const SignInPage(),
-                      transitionDuration: Duration.zero,
-                      reverseTransitionDuration: Duration.zero,
+                TextFormField(
+                  controller: passwordEditingController,
+                  obscureText: true,
+                  decoration: const InputDecoration(labelText: "Password"),
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: firstNameEditingController,
+                  decoration: const InputDecoration(labelText: "First Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your First name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    firstNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: secondNameEditingController,
+                  decoration: const InputDecoration(labelText: "Last Name"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your Last name";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    secondNameEditingController.text = value!;
+                  },
+                ),
+                TextFormField(
+                  controller: fssaiController,
+                  decoration: const InputDecoration(labelText: "FSSAI Number"),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Please enter your FSSAI number";
+                    }
+                    if (value.length != 14) {
+                      return "Please enter a valid FSSAI number";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(150, 50),
                     ),
-                  );
-                },
-                child: const Text('Already have an account? Login'),
-              ),
-            ],
+                    onPressed: () {
+                      signUp(emailEditingController.text,
+                          passwordEditingController.text);
+                    },
+                    child: const Text("Sign Up"),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            const SignInPage(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
+                  },
+                  child: const Text('Already have an account? Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

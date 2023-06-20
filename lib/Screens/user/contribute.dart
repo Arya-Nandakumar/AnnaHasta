@@ -105,10 +105,10 @@ class _ContributePageState extends State<ContributePage> {
         (formKeys[3].currentState!.validate())) {
       FirestoreHelper.create(
         ContModel(
-            boxID: _locationController.text,
-            caseID: _quantityController.text,
-            contents: _dateTimeController.text,
-            vname: _phoneController.text,
+            locationData: _locationController.text,
+            quantityCount: _quantityController.text,
+            dateAndTime: _dateTimeController.text,
+            phoneNumber: _phoneController.text,
             isveg: _foodType.toString(),
             userid: userID,
             itemtype: 'food',
@@ -140,10 +140,10 @@ class _ContributePageState extends State<ContributePage> {
         (formKeys[7].currentState!.validate()) &&
         (formKeys[8].currentState!.validate())) {
       FirestoreHelper.create(ContModel(
-              boxID: _locationController.text,
-              caseID: _itemquantityController.text,
-              vname: _itemphoneController.text,
-              contents: _itemdateTimeController.text,
+              locationData: _locationController.text,
+              quantityCount: _itemquantityController.text,
+              phoneNumber: _itemphoneController.text,
+              dateAndTime: _itemdateTimeController.text,
               itemtype: _itemnameController.text,
               isveg: "thing",
               userid: userID,

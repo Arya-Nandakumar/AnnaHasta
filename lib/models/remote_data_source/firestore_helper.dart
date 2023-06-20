@@ -8,28 +8,29 @@ class FirestoreHelper {
         querySnapshot.docs.map((e) => ContModel.fromSnapshot(e)).toList());
   }
 
-  static Future create(ContModel box) async {
-  final contCollection = FirebaseFirestore.instance.collection("listings");
+  static Future create(ContModel posting) async {
+    final contCollection = FirebaseFirestore.instance.collection("listings");
 
-  final newUser = ContModel(
-    boxID: box.boxID,
-    vname: box.vname,
-    caseID: box.caseID,
-    contents: box.contents,
-    isveg: box.isveg,
-    itemtype: box.itemtype,
-    userid: box.userid,
-    lat: box.lat,
-    lng: box.lng,
-  ).toJson();
+    final newUser = ContModel(
+      locationData: posting.locationData,
+      phoneNumber: posting.phoneNumber,
+      quantityCount: posting.quantityCount,
+      dateAndTime: posting.dateAndTime,
+      isveg: posting.isveg,
+      itemtype: posting.itemtype,
+      userid: posting.userid,
+      lat: posting.lat,
+      lng: posting.lng,
+    ).toJson();
 
-  try {
-    await contCollection.add(newUser);
-  } catch (e) {
-    print("some error occurred: $e");
+    try {
+      await contCollection.add(newUser);
+    } catch (e) {
+      print("some error occurred: $e");
+    }
   }
-}
-static Future delete(String? documentId) async {
+
+  static Future delete(String? documentId) async {
     final contCollection = FirebaseFirestore.instance.collection("listings");
     try {
       await contCollection.doc(documentId).delete();

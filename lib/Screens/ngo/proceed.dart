@@ -64,10 +64,10 @@ class _ProceedPageState extends State<ProceedPage> {
   void _doSomething() {
     DistributedHelper.create(
       ContModel(
-        boxID: location,
-        caseID: quantity,
-        vname: phone,
-        contents: date,
+        locationData: location,
+        quantityCount: quantity,
+        phoneNumber: phone,
+        dateAndTime: date,
         itemtype: itemtype,
         isveg: type,
         lat: lat,
@@ -116,10 +116,10 @@ class _ProceedPageState extends State<ProceedPage> {
             } else {
               Map<String, dynamic> data =
                   snapshot.data!.data() as Map<String, dynamic>;
-              location = data['boxID'] ?? '';
-              quantity = data['caseID'] ?? '';
-              date = data['contents'] ?? '';
-              phone = data['vname'] ?? '';
+              location = data['locationData'] ?? '';
+              quantity = data['quantityCount'] ?? '';
+              date = data['dateAndTime'] ?? '';
+              phone = data['phoneNumber'] ?? '';
               type = data['isveg'] ?? '';
               lat = data['lat'] ?? '';
               lng = data['lng'] ?? '';

@@ -8,19 +8,19 @@ class DistributedHelper {
         querySnapshot.docs.map((e) => ContModel.fromSnapshot(e)).toList());
   }
 
-  static Future create(ContModel box) async {
+  static Future create(ContModel posting) async {
     final contCollection = FirebaseFirestore.instance.collection("distributed");
 
     final newUser = ContModel(
-      boxID: box.boxID,
-      vname: box.vname,
-      caseID: box.caseID,
-      contents: box.contents,
-      isveg: box.isveg,
-      itemtype: box.itemtype,
-      userid: box.userid,
-      lat: box.lat,
-      lng: box.lng,
+      locationData: posting.locationData,
+      phoneNumber: posting.phoneNumber,
+      quantityCount: posting.quantityCount,
+      dateAndTime: posting.dateAndTime,
+      isveg: posting.isveg,
+      itemtype: posting.itemtype,
+      userid: posting.userid,
+      lat: posting.lat,
+      lng: posting.lng,
     ).toJson();
 
     try {
