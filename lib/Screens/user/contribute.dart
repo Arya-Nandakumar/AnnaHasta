@@ -116,6 +116,10 @@ class _ContributePageState extends State<ContributePage> {
             lng: lng),
       ).then((value) {
         Fluttertoast.showToast(msg: 'Posted!');
+        _locationController.clear();
+        _quantityController.clear();
+        _dateTimeController.clear();
+        _phoneController.clear();
         _btnController.success();
         Timer(const Duration(seconds: 1), () {
           _btnController.reset();
@@ -147,6 +151,11 @@ class _ContributePageState extends State<ContributePage> {
               lng: lng))
           .then((value) {
         Fluttertoast.showToast(msg: "Item Added!");
+        _locationController.clear();
+        _itemquantityController.clear();
+        _itemdateTimeController.clear();
+        _itemphoneController.clear();
+        _itemnameController.clear();
         _btnController.success();
         Timer(const Duration(seconds: 1), () {
           _btnController.reset();
@@ -183,10 +192,12 @@ class _ContributePageState extends State<ContributePage> {
           },
         ),
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(120.0), // here the desired height
+          preferredSize:
+              const Size.fromHeight(120.0), // here the desired height
           child: SafeArea(
             top: true, // Add top padding
-            minimum: const EdgeInsets.only(top: 60), // Set the top padding value
+            minimum:
+                const EdgeInsets.only(top: 60), // Set the top padding value
             child: AppBar(
               automaticallyImplyLeading: false,
               title: const Text(
