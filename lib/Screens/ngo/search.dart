@@ -92,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
     final scrollController = ScrollController();
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: SpotifyBottomNavigationBar(
+      bottomNavigationBar: SBottomNavigationBar(
         initialIndex: 1,
         onItemTapped: (index) {
           // Do something when an item in the navigation bar is tapped

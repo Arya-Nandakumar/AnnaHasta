@@ -26,17 +26,15 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
   }
 
   Future<void> decidePage() async {
-    print("Hello2${loggedInUser.isVerified}");
     if (loggedInUser.isVerified == true) {
       setState(() {
         _isLoading = true;
       });
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('userid',user!.uid );
-          prefs.setString('firstname', loggedInUser.firstName ?? '');
-          prefs.setString('secondname', loggedInUser.secondName ?? '');
-
+      prefs.setString('userid', user!.uid);
+      prefs.setString('firstname', loggedInUser.firstName ?? '');
+      prefs.setString('secondname', loggedInUser.secondName ?? '');
 
       if (loggedInUser.fssai != null) {
         Navigator.of(context).pushReplacement(
@@ -58,7 +56,6 @@ class _VerifyCheckPageState extends State<VerifyCheckPage> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      print("Hello1${loggedInUser.isVerified}");
       decidePage();
     });
   }

@@ -29,11 +29,9 @@ class _UserHomePageState extends State<UserHomePage> {
         : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: SpotifyBottomNavigationBar(
+      bottomNavigationBar: SBottomNavigationBar(
         initialIndex: 0,
-        onItemTapped: (index) {
-          // Do something when an item in the navigation bar is tapped
-        },
+        onItemTapped: (index) {},
       ),
       body: CustomScrollView(
         controller: _scrollController,

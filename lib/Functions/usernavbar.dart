@@ -4,20 +4,18 @@ import '../Screens/user/home.dart';
 import '../Screens/user/search.dart';
 import 'package:line_icons/line_icons.dart';
 
-class SpotifyBottomNavigationBar extends StatefulWidget {
+class SBottomNavigationBar extends StatefulWidget {
   final int initialIndex;
   final Function(int) onItemTapped;
 
-  const SpotifyBottomNavigationBar(
+  const SBottomNavigationBar(
       {super.key, this.initialIndex = 0, required this.onItemTapped});
 
   @override
-  _SpotifyBottomNavigationBarState createState() =>
-      _SpotifyBottomNavigationBarState();
+  _SBottomNavigationBarState createState() => _SBottomNavigationBarState();
 }
 
-class _SpotifyBottomNavigationBarState
-    extends State<SpotifyBottomNavigationBar> {
+class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
   late int _selectedIndex;
 
   @override
@@ -49,7 +47,8 @@ class _SpotifyBottomNavigationBarState
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const ContributePage(),
+            pageBuilder: (context, animation1, animation2) =>
+                const ContributePage(),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           ),

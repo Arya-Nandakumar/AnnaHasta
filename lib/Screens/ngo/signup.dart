@@ -99,8 +99,8 @@ class _SignUpPageUState extends State<SignUpPageU> {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-          minimumSize: const Size(150, 50),
-        ),
+                      minimumSize: const Size(150, 50),
+                    ),
                     onPressed: () {
                       signUp(emailEditingController.text,
                           passwordEditingController.text);
@@ -172,10 +172,6 @@ class _SignUpPageUState extends State<SignUpPageU> {
   }
 
   postDetailsToFirestore() async {
-    // calling our firestore
-    // calling our user model
-    // sending these values
-
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 

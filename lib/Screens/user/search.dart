@@ -92,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
         : buildMaterialColor(const Color(0xFFBDBDBD));
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: SpotifyBottomNavigationBar(
+      bottomNavigationBar: SBottomNavigationBar(
         initialIndex: 2,
         onItemTapped: (index) {
           // Do something when an item in the navigation bar is tapped

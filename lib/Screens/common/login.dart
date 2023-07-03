@@ -1,6 +1,7 @@
 import 'package:annahasta/Screens/common/reset.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:annahasta/Screens/common/dec_signup.dart';
 import 'package:annahasta/Functions/decidepage.dart';
@@ -54,6 +55,13 @@ class _SignInPageState extends State<SignInPage> {
             _isLoading = false;
           });
           print(error);
+          Fluttertoast.showToast(
+              msg: error.message.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.white,
+              fontSize: 16.0);
         });
       }
     }

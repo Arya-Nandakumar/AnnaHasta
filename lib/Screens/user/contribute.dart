@@ -185,7 +185,7 @@ class _ContributePageState extends State<ContributePage> {
     return DefaultTabController(
       length: 2, // Number of tabs
       child: Scaffold(
-        bottomNavigationBar: SpotifyBottomNavigationBar(
+        bottomNavigationBar: SBottomNavigationBar(
           initialIndex: 1,
           onItemTapped: (index) {
             // Do something when an item in the navigation bar is tapped
